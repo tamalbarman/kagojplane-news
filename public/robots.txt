@@ -2,4 +2,4 @@ User-agent: *
 Allow: /
 Disallow: /admin/
 
-Sitemap: https://kagojplane-news.netlify.app/sitemap.xml
+Sitemap: https://thekagojplane.netlify.app/sitemap.xml

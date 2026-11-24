@@ -3,7 +3,7 @@ import { CATEGORY_LIST } from '../utils/categories';
 
 export async function GET(context) {
   const news = await getCollection('news');
-  const siteUrl = context.site?.toString().replace(/\/$/, '') || 'https://kagojplane-news.netlify.app';
+  const siteUrl = context.site?.toString().replace(/\/$/, '') || 'https://thekagojplane.netlify.app';
 
   const staticPages = [
     { url: '', priority: '1.0', changefreq: 'hourly' },

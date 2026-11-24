@@ -14,13 +14,13 @@ const {
   description = 'দৈনন্দিন ব্যবসা, শেয়ার বাজার, অর্থনীতি ও সরকারি খবরের বিশ্বস্ত পোর্টাল',
   image = 'https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=1200&auto=format&fit=crop&q=80',
   articleDate,
-  author = 'কাগজপ্লেন নিউজ',
+  author = 'দ্য কাগজপ্লেন',
   category,
   type = 'website'
 } = Astro.props;
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
-const siteName = 'কাগজপ্লেন নিউজ (Kagojplane News)';
+const siteName = 'দ্য কাগজপ্লেন (The Kagojplane)';
 
 const schemaData = type === 'article' ? {
   '@context': 'https://schema.org',
@@ -37,10 +37,10 @@ const schemaData = type === 'article' ? {
   'publisher': {
     '@type': 'NewsMediaOrganization',
     'name': siteName,
-    'url': Astro.site ? Astro.site.toString() : 'https://kagojplane-news.netlify.app',
+    'url': Astro.site ? Astro.site.toString() : 'https://thekagojplane.netlify.app',
     'logo': {
       '@type': 'ImageObject',
-      'url': new URL('/favicon.svg', Astro.site || 'https://kagojplane-news.netlify.app').toString()
+      'url': new URL('/favicon.svg', Astro.site || 'https://thekagojplane.netlify.app').toString()
     }
   },
   'mainEntityOfPage': {
@@ -51,10 +51,10 @@ const schemaData = type === 'article' ? {
   '@context': 'https://schema.org',
   '@type': 'WebSite',
   'name': siteName,
-  'url': Astro.site ? Astro.site.toString() : 'https://kagojplane-news.netlify.app',
+  'url': Astro.site ? Astro.site.toString() : 'https://thekagojplane.netlify.app',
   'potentialAction': {
     '@type': 'SearchAction',
-    'target': `${Astro.site || 'https://kagojplane-news.netlify.app'}/?q={search_term_string}`,
+    'target': `${Astro.site || 'https://thekagojplane.netlify.app'}/?q={search_term_string}`,
     'query-input': 'required name=search_term_string'
   }
 };
