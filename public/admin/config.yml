@@ -21,7 +21,7 @@ collections:
       - { label: "শিরোনাম (Headline)", name: "title", widget: "string" }
       - { label: "সংক্ষিপ্ত সারাংশ (Summary / Excerpt)", name: "description", widget: "text", required: false }
       - { label: "প্রকাশের তারিখ ও সময় (Publish Date)", name: "pubDate", widget: "datetime" }
-      - { label: "প্রতিবেদক / লেখক (Author)", name: "author", widget: "string", default: "Sunanda Sen" }
+      - { label: "প্রতিবেদক / লেখক (Author)", name: "author", widget: "string", default: "দ্য কাগজপ্লেন বার্তা বিভাগ" }
       - label: "বিভাগ (Category)"
         name: "category"
         widget: "select"
