@@ -7,6 +7,7 @@ export async function GET(context) {
 
   const staticPages = [
     { url: '', priority: '1.0', changefreq: 'hourly' },
+    { url: '/about/', priority: '0.6', changefreq: 'monthly' },
     { url: '/privacy/', priority: '0.3', changefreq: 'yearly' },
     { url: '/terms/', priority: '0.3', changefreq: 'yearly' },
     { url: '/contact/', priority: '0.5', changefreq: 'monthly' },
