@@ -36,6 +36,8 @@ collections:
           - { label: "ব্যাঙ্ক (Banking)", value: "bank" }
           - { label: "চাকরি (Employment)", value: "employment" }
           - { label: "বাজারদর (Market Price)", value: "market-price" }
+          - { label: "ভ্রমণ ও আবহাওয়া (Travel & Alerts)", value: "travel" }
+          - { label: "খাবার ও রেসিপি (Food & Recipes)", value: "food-recipe" }
       - { label: "প্রধান ছবি (Featured Image)", name: "image", widget: "image", default: "https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=1000&auto=format&fit=crop&q=80" }
       - { label: "ছবির ক্যাপশন (Image Caption)", name: "imageCaption", widget: "string", required: false }
       - { label: "প্রধান ফিচার্ড খবর (Featured Hero)", name: "featured", widget: "boolean", default: false, required: false }

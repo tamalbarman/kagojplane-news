@@ -88,6 +88,22 @@ export const CATEGORIES: Record<string, CategoryMeta> = {
     color: 'text-rose-700 border-rose-700',
     bgColor: 'bg-rose-600',
   },
+  'travel': {
+    slug: 'travel',
+    name: 'ভ্রমণ ও আবহাওয়া',
+    englishName: 'Travel & Advisory',
+    description: 'দৈনন্দিন ভ্রমণ আপডেট, পাহাড়ি পথের ধস সতর্কতা, আবহাওয়া ও পর্যটন গাইড',
+    color: 'text-sky-700 border-sky-700',
+    bgColor: 'bg-sky-600',
+  },
+  'food-recipe': {
+    slug: 'food-recipe',
+    name: 'খাবার ও রেসিপি',
+    englishName: 'Food & Cooking',
+    description: 'রবিবারের স্পেশাল পদ, নিরামিষ রান্না, সুস্বাদু রেসিপি ও ঘরোয়া রান্নার উপায়',
+    color: 'text-amber-700 border-amber-700',
+    bgColor: 'bg-amber-600',
+  },
 };
 
 export const CATEGORY_LIST = Object.values(CATEGORIES);
