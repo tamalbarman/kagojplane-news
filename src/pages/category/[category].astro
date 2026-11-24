@@ -1,0 +1,84 @@
+---
+import { getCollection } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+import NewsCard from '../../components/NewsCard.astro';
+import Sidebar from '../../components/Sidebar.astro';
+import { CATEGORY_LIST, getCategoryMeta } from '../../utils/categories';
+
+export async function getStaticPaths() {
+  return CATEGORY_LIST.map((cat) => ({
+    params: { category: cat.slug },
+  }));
+}
+
+const { category } = Astro.params;
+const categoryMeta = getCategoryMeta(category as string);
+
+const allNews = await getCollection('news');
+const categoryArticles = allNews
+  .filter(post => post.data.category === category)
+  .sort((a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime());
+
+const trendingNews = allNews.filter(n => n.data.trending);
+---
+
+<Layout 
+  title={`${categoryMeta.name} - সংবাদ ও আপডেট`}
+  description={categoryMeta.description}
+>
+  
+  <!-- Category Header Banner -->
+  <div class="bg-white rounded-xl p-6 sm:p-8 border border-slate-200 shadow-xs mb-8">
+    <div class="flex items-center space-x-3 mb-2">
+      <span class={`w-4 h-4 rounded-xs ${categoryMeta.bgColor}`}></span>
+      <h1 class="text-2xl sm:text-3xl font-bold text-slate-900">
+        {categoryMeta.name}
+      </h1>
+      <span class="text-sm font-semibold text-slate-400">({categoryMeta.englishName})</span>
+    </div>
+    <p class="text-sm text-slate-500 max-w-2xl leading-relaxed">
+      {categoryMeta.description}
+    </p>
+  </div>
+
+  <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+    
+    <!-- Articles List (8 cols) -->
+    <div class="lg:col-span-8">
+      {categoryArticles.length > 0 ? (
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+          {categoryArticles.map(article => (
+            <NewsCard news={article} variant="standard" />
+          ))}
+        </div>
+      ) : (
+        <div class="bg-white rounded-xl p-10 sm:p-12 text-center border border-slate-200 shadow-xs">
+          <div class="w-12 h-12 rounded-full bg-slate-100 text-slate-400 mx-auto flex items-center justify-center mb-3">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"></path>
+            </svg>
+          </div>
+          <h3 class="text-base font-bold text-slate-800 mb-1">এই বিভাগে শীঘ্রই নতুন সংবাদ প্রকাশিত হবে</h3>
+          <p class="text-xs text-slate-500 max-w-md mx-auto mb-6">
+            আমাদের সম্পাদকীয় দল এই বিভাগের খবর সংগ্রহের কাজ করছেন। অন্যান্য বিভাগের ব্রেকিং নিউজ দেখতে প্রচ্ছদে ফিরে যান।
+          </p>
+          <div class="flex flex-wrap justify-center items-center gap-3">
+            <a href="/" class="inline-block bg-red-600 text-white font-bold text-xs px-4 py-2.5 rounded-lg hover:bg-red-700 transition shadow-xs">
+              &larr; প্রধান পাতায় ফিরুন
+            </a>
+            <a href="/admin/" class="inline-block bg-slate-100 hover:bg-slate-200 text-slate-600 font-semibold text-xs px-3 py-2.5 rounded-lg transition border border-slate-200">
+              এডমিন থেকে পোস্ট লিখুন
+            </a>
+          </div>
+        </div>
+      )}
+    </div>
+
+    <!-- Sidebar (4 cols) -->
+    <div class="lg:col-span-4">
+      <Sidebar trendingNews={trendingNews} />
+    </div>
+
+  </div>
+
+</Layout>

@@ -1,0 +1,107 @@
+---
+export interface Props {
+  title: string;
+  url: string;
+}
+
+const { title, url } = Astro.props;
+
+const encodedTitle = encodeURIComponent(title);
+const encodedUrl = encodeURIComponent(url);
+
+const whatsappUrl = `https://api.whatsapp.com/send?text=${encodedTitle}%20${encodedUrl}`;
+const facebookUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}`;
+const twitterUrl = `https://twitter.com/intent/tweet?text=${encodedTitle}&url=${encodedUrl}`;
+const telegramUrl = `https://t.me/share/url?url=${encodedUrl}&text=${encodedTitle}`;
+---
+
+<div class="flex items-center space-x-2">
+  <span class="text-xs font-semibold text-slate-500">শেয়ার করুন:</span>
+  
+  <!-- WhatsApp -->
+  <a 
+    href={whatsappUrl} 
+    target="_blank" 
+    rel="noopener noreferrer"
+    class="w-8 h-8 rounded-full bg-emerald-500 hover:bg-emerald-600 text-white flex items-center justify-center transition shadow-xs"
+    title="WhatsApp-এ শেয়ার করুন"
+    aria-label="WhatsApp-এ শেয়ার করুন"
+  >
+    <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+      <path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91C2.13 13.66 2.59 15.36 3.45 16.86L2.05 22L7.3 20.62C8.75 21.41 10.38 21.83 12.04 21.83C17.5 21.83 21.95 17.38 21.95 11.92C21.95 9.27 20.92 6.78 19.05 4.91C17.18 3.03 14.69 2 12.04 2M12.05 3.67C14.25 3.67 16.31 4.53 17.87 6.09C19.42 7.65 20.28 9.72 20.28 11.92C20.28 16.46 16.58 20.15 12.04 20.15C10.56 20.15 9.11 19.76 7.85 19L7.55 18.83L4.43 19.65L5.26 16.61L5.06 16.29C4.24 14.99 3.8 13.47 3.8 11.91C3.81 7.37 7.5 3.67 12.05 3.67Z"/>
+    </svg>
+  </a>
+
+  <!-- Facebook -->
+  <a 
+    href={facebookUrl} 
+    target="_blank" 
+    rel="noopener noreferrer"
+    class="w-8 h-8 rounded-full bg-blue-600 hover:bg-blue-700 text-white flex items-center justify-center transition shadow-xs"
+    title="Facebook-এ শেয়ার করুন"
+    aria-label="Facebook-এ শেয়ার করুন"
+  >
+    <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+      <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+    </svg>
+  </a>
+
+  <!-- Twitter / X -->
+  <a 
+    href={twitterUrl} 
+    target="_blank" 
+    rel="noopener noreferrer"
+    class="w-8 h-8 rounded-full bg-slate-800 hover:bg-slate-900 text-white flex items-center justify-center transition shadow-xs"
+    title="X-এ শেয়ার করুন"
+    aria-label="X-এ শেয়ার করুন"
+  >
+    <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24">
+      <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+    </svg>
+  </a>
+
+  <!-- Telegram -->
+  <a 
+    href={telegramUrl} 
+    target="_blank" 
+    rel="noopener noreferrer"
+    class="w-8 h-8 rounded-full bg-sky-500 hover:bg-sky-600 text-white flex items-center justify-center transition shadow-xs"
+    title="Telegram-এ শেয়ার করুন"
+    aria-label="Telegram-এ শেয়ার করুন"
+  >
+    <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24">
+      <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 00-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.75-.55 2.92-1.27 4.86-2.11 5.83-2.52 2.78-1.16 3.35-1.36 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .38z"/>
+    </svg>
+  </a>
+
+  <!-- Copy Link Button -->
+  <button 
+    type="button" 
+    class="copy-link-btn w-8 h-8 rounded-full bg-slate-200 hover:bg-slate-300 text-slate-700 flex items-center justify-center transition shadow-xs cursor-pointer"
+    title="লিঙ্ক কপি করুন"
+    aria-label="লিঙ্ক কপি করুন"
+    data-copy-url={url}
+  >
+    <svg class="w-4 h-4 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
+    </svg>
+  </button>
+</div>
+
+<script is:inline>
+  document.querySelectorAll('.copy-link-btn').forEach(btn => {
+    btn.addEventListener('click', async () => {
+      const copyUrl = btn.getAttribute('data-copy-url') || window.location.href;
+      try {
+        await navigator.clipboard.writeText(copyUrl);
+        const originalHTML = btn.innerHTML;
+        btn.innerHTML = `<svg class="w-4 h-4 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>`;
+        setTimeout(() => {
+          btn.innerHTML = originalHTML;
+        }, 2000);
+      } catch (err) {
+        console.warn('Copy failed:', err);
+      }
+    });
+  });
+</script>

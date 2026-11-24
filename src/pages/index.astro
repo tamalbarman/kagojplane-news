@@ -1,0 +1,189 @@
+---
+import { getCollection } from 'astro:content';
+import Layout from '../layouts/Layout.astro';
+import FeaturedHero from '../components/FeaturedHero.astro';
+import CategorySection from '../components/CategorySection.astro';
+import Sidebar from '../components/Sidebar.astro';
+import NewsCard from '../components/NewsCard.astro';
+
+// Fetch all news sorted by date descending
+const allNews = await getCollection('news');
+const sortedNews = allNews.sort((a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime());
+
+// Categories for homepage sections
+const stockNews = sortedNews.filter(n => n.data.category === 'stock-market');
+const govtNews = sortedNews.filter(n => n.data.category === 'government-updates');
+const businessNews = sortedNews.filter(n => n.data.category === 'business');
+const trendingNews = sortedNews.filter(n => n.data.trending);
+
+// Prepare client-side search index
+const searchIndex = sortedNews.map(n => ({
+  id: n.id,
+  title: n.data.title,
+  description: n.data.description || '',
+  category: n.data.category,
+  categoryName: n.data.categoryName || '',
+  image: n.data.image,
+  author: n.data.author,
+  dateStr: n.data.pubDate.toLocaleDateString('bn-IN', { year: 'numeric', month: 'long', day: 'numeric' }),
+  tags: n.data.tags || [],
+}));
+---
+
+<Layout title="প্রচ্ছদ - দৈনন্দিন ব্যবসা ও শেয়ার বাজার সংবাদ">
+  
+  <!-- Search Results Bar -->
+  <div id="search-results-container" class="hidden mb-8 bg-amber-50 border border-amber-200 rounded-xl p-5 shadow-xs">
+    <div class="flex items-center justify-between pb-3 border-b border-amber-200/60">
+      <h3 class="text-base font-bold text-amber-900" id="search-query-text">
+        অনুসন্ধান ফলাফল
+      </h3>
+      <a href="/" class="text-xs font-bold text-amber-800 hover:text-red-600 transition flex items-center space-x-1">
+        <span>সকল সংবাদ দেখুন &times;</span>
+      </a>
+    </div>
+    
+    <div id="search-results-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 mt-5"></div>
+    <p id="search-no-results" class="hidden text-sm text-slate-600 py-6 text-center font-medium">
+      কোনো ফলাফল পাওয়া যায়নি। অন্য কোনো শব্দ বা বিষয় দিয়ে অনুসন্ধান করুন।
+    </p>
+  </div>
+
+  <!-- Featured Hero Section -->
+  <div id="main-portal-content">
+    <FeaturedHero newsList={sortedNews} />
+
+  <!-- Main 2-Column Grid (Content + Sidebar) -->
+  <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 mt-6">
+    
+    <!-- Main Articles Stream (8 cols) -->
+    <div class="lg:col-span-8 space-y-12">
+      
+      <!-- Category 1: Stock Market -->
+      <CategorySection 
+        categorySlug="stock-market" 
+        articles={stockNews} 
+        limit={4} 
+      />
+
+      <!-- In-feed Sponsor / Ad banner -->
+      <div class="bg-gradient-to-r from-red-600 to-amber-600 rounded-xl p-6 text-white flex flex-col sm:flex-row items-center justify-between gap-4 shadow-sm">
+        <div>
+          <span class="text-xs font-bold uppercase tracking-wider bg-white/20 px-2 py-0.5 rounded">সরাসরি আপডেট</span>
+          <h4 class="text-xl font-bold mt-1">স্টকমার্কেট ও ব্যবসার ব্রেকিং নিউজ মিস করবেন না</h4>
+          <p class="text-xs text-red-100 mt-1">আমাদের আরএসএস ও সোশ্যাল চ্যানেলগুলোতে যুক্ত থাকুন</p>
+        </div>
+        <a href="/rss.xml" class="bg-white text-red-700 hover:bg-red-50 font-bold text-xs px-4 py-2.5 rounded-lg whitespace-nowrap shadow-xs transition">
+          RSS Feed সাবস্ক্রাইব করুন
+        </a>
+      </div>
+
+      <!-- Category 2: Government Updates -->
+      <CategorySection 
+        categorySlug="government-updates" 
+        articles={govtNews} 
+        limit={4} 
+      />
+
+      <!-- Category 3: Business & Corporate -->
+      <CategorySection 
+        categorySlug="business" 
+        articles={businessNews} 
+        limit={4} 
+      />
+
+      <!-- Latest All News Grid -->
+      <section>
+        <div class="flex items-center justify-between mb-4 pb-2 border-b-2 border-slate-200">
+          <div class="flex items-center space-x-2">
+            <span class="w-3.5 h-3.5 rounded-xs bg-slate-800"></span>
+            <h3 class="text-lg sm:text-xl font-bold text-slate-900">
+              সর্বশেষ অন্যান্য সংবাদ
+            </h3>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+          {sortedNews.slice(4, 10).map((article) => (
+            <NewsCard news={article} variant="standard" />
+          ))}
+        </div>
+      </section>
+
+    </div>
+
+    <!-- Right Sidebar (4 cols) -->
+    <div class="lg:col-span-4">
+      <Sidebar trendingNews={trendingNews} />
+    </div>
+
+  </div>
+  </div>
+
+  <script is:inline define:vars={{ searchIndex }}>
+    // Client-side search handling for query parameter
+    const params = new URLSearchParams(window.location.search);
+    const query = params.get('q');
+    if (query && query.trim() !== '') {
+      const q = query.trim().toLowerCase();
+      const searchBox = document.getElementById('search-results-container');
+      const queryText = document.getElementById('search-query-text');
+      const resultsGrid = document.getElementById('search-results-grid');
+      const noResults = document.getElementById('search-no-results');
+      const mainPortal = document.getElementById('main-portal-content');
+      const input = document.getElementById('site-search-input');
+      
+      if (input) input.value = query;
+      if (searchBox && queryText && resultsGrid && noResults) {
+        searchBox.classList.remove('hidden');
+        queryText.textContent = `"${query}" এর জন্য অনুসন্ধান ফলাফল:`;
+
+        const matches = searchIndex.filter(item => {
+          return item.title.toLowerCase().includes(q) ||
+                 item.description.toLowerCase().includes(q) ||
+                 item.categoryName.toLowerCase().includes(q) ||
+                 item.author.toLowerCase().includes(q) ||
+                 item.tags.some(t => t.toLowerCase().includes(q));
+        });
+
+        if (matches.length > 0) {
+          noResults.classList.add('hidden');
+          resultsGrid.innerHTML = matches.map(item => `
+            <article class="bg-white rounded-xl overflow-hidden border border-slate-200 shadow-xs hover:shadow-md transition flex flex-col h-full">
+              <div class="relative aspect-[16/10] w-full overflow-hidden bg-slate-100">
+                <img src="${item.image}" alt="${item.title}" loading="lazy" class="w-full h-full object-cover">
+              </div>
+              <div class="p-4 flex-1 flex flex-col justify-between">
+                <div>
+                  <div class="text-[11px] text-slate-400 mb-1.5 flex items-center space-x-2">
+                    <span>${item.author}</span>
+                    <span>•</span>
+                    <span>${item.dateStr}</span>
+                  </div>
+                  <h4 class="font-bold text-slate-900 text-base leading-snug line-clamp-2 hover:text-red-600 transition mb-2">
+                    <a href={'/news/' + item.id + '/'}>` + item.title + `</a>
+                  </h4>
+                  <p class="text-slate-500 text-xs line-clamp-2">` + item.description + `</p>
+                </div>
+                <div class="mt-4 pt-2 border-t border-slate-100 text-xs">
+                  <a href={'/news/' + item.id + '/'} class="text-red-600 font-bold hover:underline flex items-center space-x-1">
+                    <span>বিস্তারিত পড়ুন</span>
+                    <span>&rarr;</span>
+                  </a>
+                </div>
+              </div>
+            </article>
+          `).join('');
+          
+          if (mainPortal) {
+            mainPortal.classList.add('opacity-40', 'pointer-events-none');
+          }
+        } else {
+          resultsGrid.innerHTML = '';
+          noResults.classList.remove('hidden');
+        }
+      }
+    }
+  </script>
+
+</Layout>

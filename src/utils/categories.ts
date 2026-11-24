@@ -1,0 +1,104 @@
+export interface CategoryMeta {
+  slug: string;
+  name: string;
+  englishName: string;
+  description: string;
+  color: string;
+  bgColor: string;
+}
+
+export const CATEGORIES: Record<string, CategoryMeta> = {
+  'stock-market': {
+    slug: 'stock-market',
+    name: 'শেয়ার বাজার',
+    englishName: 'Stock Market',
+    description: 'শেয়ার বাজার ও স্টক এক্সচেঞ্জের দৈনন্দিন খবর ও বিশ্লেষণ',
+    color: 'text-red-700 border-red-700',
+    bgColor: 'bg-red-600',
+  },
+  'stock-market-info': {
+    slug: 'stock-market-info',
+    name: 'স্টকমার্কেট খুঁটিনাটি',
+    englishName: 'Stock Market Tips',
+    description: 'স্টকমার্কেটের বিনিয়োগ কৌশল, গাইড ও খুটিনাটি তথ্য',
+    color: 'text-indigo-700 border-indigo-700',
+    bgColor: 'bg-indigo-600',
+  },
+  'mutual-funds': {
+    slug: 'mutual-funds',
+    name: 'মিউচুয়াল ফান্ড',
+    englishName: 'Mutual Funds',
+    description: 'মিউচুয়াল ফান্ড এবং এসআইপি (SIP) সংক্রান্ত সর্বশেষ আপডেট',
+    color: 'text-emerald-700 border-emerald-700',
+    bgColor: 'bg-emerald-600',
+  },
+  'business': {
+    slug: 'business',
+    name: 'ব্যবসা',
+    englishName: 'Business',
+    description: 'বাণিজ্য, শিল্প প্রতিষ্ঠান ও স্টার্টআপ সংক্রান্ত সংবাদ',
+    color: 'text-blue-700 border-blue-700',
+    bgColor: 'bg-blue-600',
+  },
+  'country': {
+    slug: 'country',
+    name: 'দেশ',
+    englishName: 'National',
+    description: 'দেশের জাতীয় অর্থনীতি, নীতি ও গুরুত্বপূর্ণ ঘটনাপ্রবাহ',
+    color: 'text-amber-700 border-amber-700',
+    bgColor: 'bg-amber-600',
+  },
+  'government-updates': {
+    slug: 'government-updates',
+    name: 'সরকারি খবর',
+    englishName: 'Government Updates',
+    description: 'সরকারি প্রকল্প, বাজেট, নীতি এবং প্রশাসনিক খবরাখবর',
+    color: 'text-teal-700 border-teal-700',
+    bgColor: 'bg-teal-600',
+  },
+  'foreign-country': {
+    slug: 'foreign-country',
+    name: 'বিদেশ',
+    englishName: 'International',
+    description: 'আন্তর্জাতিক বাণিজ্য, ভূ-রাজনীতি ও বৈশ্বিক অর্থনীতি',
+    color: 'text-purple-700 border-purple-700',
+    bgColor: 'bg-purple-600',
+  },
+  'bank': {
+    slug: 'bank',
+    name: 'ব্যাঙ্ক',
+    englishName: 'Banking',
+    description: 'রিজার্ভ ব্যাঙ্ক (RBI), সুদের হার, ফিক্সড ডিপোজিট ও ব্যাঙ্কিং খবর',
+    color: 'text-cyan-700 border-cyan-700',
+    bgColor: 'bg-cyan-600',
+  },
+  'employment': {
+    slug: 'employment',
+    name: 'চাকরি',
+    englishName: 'Employment',
+    description: 'নিয়োগ বিজ্ঞপ্তি, চাকরির সুযোগ ও কর্মসংস্থান আপডেট',
+    color: 'text-green-700 border-green-700',
+    bgColor: 'bg-green-600',
+  },
+  'market-price': {
+    slug: 'market-price',
+    name: 'বাজারদর',
+    englishName: 'Market Price',
+    description: 'সোনা, রুপো, অপরিশোধিত তেল ও নিত্যপ্রয়োজনীয় পণ্যের দৈনন্দিন দর',
+    color: 'text-rose-700 border-rose-700',
+    bgColor: 'bg-rose-600',
+  },
+};
+
+export const CATEGORY_LIST = Object.values(CATEGORIES);
+
+export function getCategoryMeta(slug: string): CategoryMeta {
+  return CATEGORIES[slug] || {
+    slug,
+    name: slug,
+    englishName: slug,
+    description: 'সংবাদ ও আপডেট',
+    color: 'text-slate-700 border-slate-700',
+    bgColor: 'bg-slate-700',
+  };
+}

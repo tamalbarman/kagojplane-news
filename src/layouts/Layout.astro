@@ -1,0 +1,145 @@
+---
+export interface Props {
+  title: string;
+  description?: string;
+  image?: string;
+  articleDate?: Date;
+  author?: string;
+  category?: string;
+  type?: 'website' | 'article';
+}
+
+const {
+  title,
+  description = 'দৈনন্দিন ব্যবসা, শেয়ার বাজার, অর্থনীতি ও সরকারি খবরের বিশ্বস্ত পোর্টাল',
+  image = 'https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=1200&auto=format&fit=crop&q=80',
+  articleDate,
+  author = 'কাগজপ্লেন নিউজ',
+  category,
+  type = 'website'
+} = Astro.props;
+
+const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+const siteName = 'কাগজপ্লেন নিউজ (Kagojplane News)';
+
+const schemaData = type === 'article' ? {
+  '@context': 'https://schema.org',
+  '@type': 'NewsArticle',
+  'headline': title,
+  'description': description,
+  'image': [image],
+  'datePublished': articleDate ? articleDate.toISOString() : undefined,
+  'dateModified': articleDate ? articleDate.toISOString() : undefined,
+  'author': [{
+    '@type': 'Person',
+    'name': author
+  }],
+  'publisher': {
+    '@type': 'NewsMediaOrganization',
+    'name': siteName,
+    'url': Astro.site ? Astro.site.toString() : 'https://kagojplane-news.netlify.app',
+    'logo': {
+      '@type': 'ImageObject',
+      'url': new URL('/favicon.svg', Astro.site || 'https://kagojplane-news.netlify.app').toString()
+    }
+  },
+  'mainEntityOfPage': {
+    '@type': 'WebPage',
+    '@id': canonicalURL.toString()
+  }
+} : {
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  'name': siteName,
+  'url': Astro.site ? Astro.site.toString() : 'https://kagojplane-news.netlify.app',
+  'potentialAction': {
+    '@type': 'SearchAction',
+    'target': `${Astro.site || 'https://kagojplane-news.netlify.app'}/?q={search_term_string}`,
+    'query-input': 'required name=search_term_string'
+  }
+};
+
+import TopBar from '../components/TopBar.astro';
+import Header from '../components/Header.astro';
+import CategoryNav from '../components/CategoryNav.astro';
+import Footer from '../components/Footer.astro';
+import '../styles/global.css';
+---
+
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <link rel="canonical" href={canonicalURL} />
+  
+  <title>{title} | {siteName}</title>
+  <meta name="title" content={`${title} | ${siteName}`} />
+  <meta name="description" content={description} />
+  <meta name="author" content={author} />
+  <meta name="robots" content="index, follow" />
+  <meta name="theme-color" content="#DC2626" />
+
+  <!-- Font preconnect & PWA Manifest -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="manifest" href="/manifest.webmanifest" />
+
+  <!-- Schema.org JSON-LD -->
+  <script type="application/ld+json" set:html={JSON.stringify(schemaData)} />
+
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content={type} />
+  <meta property="og:url" content={canonicalURL} />
+  <meta property="og:title" content={title} />
+  <meta property="og:description" content={description} />
+  <meta property="og:image" content={image} />
+  <meta property="og:site_name" content={siteName} />
+  {articleDate && <meta property="article:published_time" content={articleDate.toISOString()} />}
+  {category && <meta property="article:section" content={category} />}
+
+  <!-- Twitter Card -->
+  <meta property="twitter:card" content="summary_large_image" />
+  <meta property="twitter:url" content={canonicalURL} />
+  <meta property="twitter:title" content={title} />
+  <meta property="twitter:description" content={description} />
+  <meta property="twitter:image" content={image} />
+
+  <!-- RSS Feed discovery -->
+  <link rel="alternate" type="application/rss+xml" title={`${siteName} RSS Feed`} href="/rss.xml" />
+
+  <!-- Netlify Identity Widget for Decap CMS admin login -->
+  <script is:inline src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+</head>
+<body class="bg-slate-50 text-slate-800 font-bengali min-h-screen flex flex-col antialiased selection:bg-red-500 selection:text-white">
+  <!-- Top ticker & live status -->
+  <TopBar />
+
+  <!-- Main Portal Header -->
+  <Header />
+
+  <!-- Category Navigation Bar -->
+  <CategoryNav />
+
+  <!-- Main Content Body -->
+  <main class="flex-1 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+    <slot />
+  </main>
+
+  <!-- Portal Footer -->
+  <Footer />
+
+  <script is:inline>
+    if (window.netlifyIdentity) {
+      window.netlifyIdentity.on("init", (user) => {
+        if (!user) {
+          window.netlifyIdentity.on("login", () => {
+            document.location.href = "/admin/";
+          });
+        }
+      });
+    }
+  </script>
+</body>
+</html>

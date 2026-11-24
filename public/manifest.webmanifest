@@ -1,0 +1,17 @@
+{
+  "name": "কাগজপ্লেন নিউজ - ব্যবসা ও অর্থনীতি সংবাদ",
+  "short_name": "কাগজপ্লেন",
+  "description": "দৈনন্দিন ব্যবসা, শেয়ার বাজার, অর্থনীতি ও সরকারি খবরের বিশ্বস্ত বাংলা পোর্টাল",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0F172A",
+  "theme_color": "#DC2626",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

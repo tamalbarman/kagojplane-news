@@ -1,0 +1,45 @@
+backend:
+  name: git-gateway
+  branch: main
+
+local_backend: true
+
+media_folder: "public/images/uploads"
+public_folder: "/images/uploads"
+
+collections:
+  - name: "news"
+    label: "দৈনন্দিন সংবাদ (News Articles)"
+    label_singular: "সংবাদ (Article)"
+    folder: "src/content/news"
+    create: true
+    slug: "{{slug}}"
+    format: "frontmatter"
+    editor:
+      preview: true
+    fields:
+      - { label: "শিরোনাম (Headline)", name: "title", widget: "string" }
+      - { label: "সংক্ষিপ্ত সারাংশ (Summary / Excerpt)", name: "description", widget: "text", required: false }
+      - { label: "প্রকাশের তারিখ ও সময় (Publish Date)", name: "pubDate", widget: "datetime" }
+      - { label: "প্রতিবেদক / লেখক (Author)", name: "author", widget: "string", default: "Sunanda Sen" }
+      - label: "বিভাগ (Category)"
+        name: "category"
+        widget: "select"
+        options:
+          - { label: "শেয়ার বাজার (Stock Market)", value: "stock-market" }
+          - { label: "স্টকমার্কেট খুঁটিনাটি (Stock Market Tips)", value: "stock-market-info" }
+          - { label: "মিউচুয়াল ফান্ড (Mutual Funds)", value: "mutual-funds" }
+          - { label: "ব্যবসা (Business)", value: "business" }
+          - { label: "দেশ (National)", value: "country" }
+          - { label: "সরকারি খবর (Government Updates)", value: "government-updates" }
+          - { label: "বিদেশ (International)", value: "foreign-country" }
+          - { label: "ব্যাঙ্ক (Banking)", value: "bank" }
+          - { label: "চাকরি (Employment)", value: "employment" }
+          - { label: "বাজারদর (Market Price)", value: "market-price" }
+      - { label: "প্রধান ছবি (Featured Image)", name: "image", widget: "image", default: "https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=1000&auto=format&fit=crop&q=80" }
+      - { label: "ছবির ক্যাপশন (Image Caption)", name: "imageCaption", widget: "string", required: false }
+      - { label: "প্রধান ফিচার্ড খবর (Featured Hero)", name: "featured", widget: "boolean", default: false, required: false }
+      - { label: "জনপ্রিয় সংবাদ (Trending)", name: "trending", widget: "boolean", default: false, required: false }
+      - { label: "ব্রেকিং নিউজ টিকার (Breaking News)", name: "breaking", widget: "boolean", default: false, required: false }
+      - { label: "ট্যাগসমূহ (Tags)", name: "tags", widget: "list", required: false }
+      - { label: "মূল সংবাদ বিবরণ (Full Article Content)", name: "body", widget: "markdown" }

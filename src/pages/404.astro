@@ -1,0 +1,68 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { CATEGORY_LIST } from '../utils/categories';
+---
+
+<Layout title="পৃষ্ঠাটি পাওয়া যায়নি (404 Not Found)">
+  <div class="max-w-2xl mx-auto py-16 px-4 text-center">
+    <div class="inline-flex items-center justify-center w-24 h-24 rounded-full bg-red-100 text-red-600 font-extrabold text-4xl mb-6 shadow-xs">
+      ৪০৪
+    </div>
+    
+    <h1 class="text-3xl sm:text-4xl font-bold text-slate-900 mb-4">
+      দুঃখিত! পৃষ্ঠাটি খুঁজে পাওয়া যায়নি
+    </h1>
+    
+    <p class="text-base text-slate-600 mb-8 leading-relaxed">
+      আপনি যে সংবাদ বা লিঙ্কটি খুঁজছেন তা মুছে ফেলা হয়েছে, স্থানান্তরিত হয়েছে অথবা লিঙ্কটি ভুল টাইপ করা হয়েছে।
+    </p>
+
+    <!-- Search box on 404 -->
+    <div class="max-w-md mx-auto mb-10">
+      <form action="/" method="GET" class="relative">
+        <input 
+          type="text" 
+          name="q" 
+          placeholder="অন্য কোনো সংবাদ খুঁজুন..." 
+          class="w-full text-sm bg-white border border-slate-300 rounded-full pl-10 pr-4 py-2.5 text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-red-500 shadow-xs"
+        />
+        <svg class="w-4 h-4 absolute left-3.5 top-3.5 text-slate-400 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+        </svg>
+      </form>
+    </div>
+
+    <!-- Action links -->
+    <div class="flex flex-wrap justify-center gap-4 mb-12">
+      <a 
+        href="/" 
+        class="bg-red-600 hover:bg-red-700 text-white font-bold text-sm px-6 py-2.5 rounded-lg transition shadow-xs flex items-center space-x-2"
+      >
+        <span>&larr;</span>
+        <span>প্রধান পাতায় ফিরে যান</span>
+      </a>
+      <a 
+        href="/category/stock-market/" 
+        class="bg-slate-200 hover:bg-slate-300 text-slate-800 font-bold text-sm px-6 py-2.5 rounded-lg transition"
+      >
+        শেয়ার বাজার সংবাদ দেখুন
+      </a>
+    </div>
+
+    <!-- Quick Category Links -->
+    <div class="border-t border-slate-200 pt-8 text-left">
+      <h3 class="text-sm font-bold text-slate-700 mb-3 text-center">জনপ্রিয় বিভাগসমূহ:</h3>
+      <div class="flex flex-wrap justify-center gap-2">
+        {CATEGORY_LIST.slice(0, 6).map((cat) => (
+          <a 
+            href={`/category/${cat.slug}/`} 
+            class="text-xs bg-white border border-slate-200 hover:border-red-500 hover:text-red-600 text-slate-700 px-3 py-1.5 rounded-full transition"
+          >
+            {cat.name}
+          </a>
+        ))}
+      </div>
+    </div>
+
+  </div>
+</Layout>

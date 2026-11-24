@@ -1,0 +1,153 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import { getCategoryMeta } from '../utils/categories';
+
+export interface Props {
+  news: CollectionEntry<'news'>;
+  variant?: 'featured' | 'standard' | 'horizontal' | 'compact';
+}
+
+const { news, variant = 'standard' } = Astro.props;
+const { title, description, pubDate, author, category, image } = news.data;
+const categoryMeta = getCategoryMeta(category);
+const newsSlug = news.id;
+
+const dateStr = pubDate.toLocaleDateString('bn-IN', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric'
+});
+---
+
+{variant === 'featured' && (
+  <article class="group relative bg-white rounded-xl overflow-hidden border border-slate-200 shadow-sm hover:shadow-lg transition-all duration-300 flex flex-col h-full">
+    <div class="relative aspect-video w-full overflow-hidden bg-slate-100">
+      <img 
+        src={image} 
+        alt={title} 
+        loading="eager"
+        class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 ease-out" 
+      />
+      <div class="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-slate-950/20 to-transparent"></div>
+      <a 
+        href={`/category/${category}/`} 
+        class="absolute top-4 left-4 z-10 text-xs font-bold text-white bg-red-600 px-3 py-1 rounded shadow-md hover:bg-red-700 transition"
+      >
+        {categoryMeta.name}
+      </a>
+      <div class="absolute bottom-4 left-4 right-4 text-white">
+        <div class="flex items-center space-x-2 text-xs text-slate-300 mb-2">
+          <span>{author}</span>
+          <span>•</span>
+          <span>{dateStr}</span>
+        </div>
+        <h2 class="text-xl sm:text-2xl lg:text-3xl font-bold leading-snug group-hover:text-red-400 transition-colors">
+          <a href={`/news/${newsSlug}/`} class="focus:outline-none">
+            {title}
+          </a>
+        </h2>
+      </div>
+    </div>
+    {description && (
+      <div class="p-5 flex-1 flex flex-col justify-between">
+        <p class="text-slate-600 text-sm sm:text-base line-clamp-3 leading-relaxed mb-4">
+          {description}
+        </p>
+        <div class="pt-3 border-t border-slate-100 flex items-center justify-between text-xs text-slate-500">
+          <a href={`/news/${newsSlug}/`} class="text-red-600 font-semibold flex items-center space-x-1 group-hover:translate-x-1 transition-transform">
+            <span>বিস্তারিত পড়ুন</span>
+            <span>&rarr;</span>
+          </a>
+        </div>
+      </div>
+    )}
+  </article>
+)}
+
+{variant === 'standard' && (
+  <article class="group bg-white rounded-xl overflow-hidden border border-slate-200 shadow-xs hover:shadow-md transition-all duration-300 flex flex-col h-full">
+    <div class="relative aspect-[16/10] w-full overflow-hidden bg-slate-100">
+      <img 
+        src={image} 
+        alt={title} 
+        loading="lazy"
+        class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300 ease-out" 
+      />
+      <a 
+        href={`/category/${category}/`} 
+        class="absolute top-2.5 left-2.5 text-[11px] font-bold text-white bg-slate-900/80 backdrop-blur-xs px-2.5 py-0.5 rounded shadow-xs hover:bg-red-600 transition"
+      >
+        {categoryMeta.name}
+      </a>
+    </div>
+    <div class="p-4 flex-1 flex flex-col justify-between">
+      <div>
+        <div class="flex items-center space-x-2 text-[11px] text-slate-400 mb-1.5">
+          <span>{author}</span>
+          <span>•</span>
+          <span>{dateStr}</span>
+        </div>
+        <h3 class="font-bold text-slate-900 text-base leading-snug group-hover:text-red-600 transition-colors line-clamp-2 mb-2">
+          <a href={`/news/${newsSlug}/`}>
+            {title}
+          </a>
+        </h3>
+        {description && (
+          <p class="text-slate-500 text-xs sm:text-sm line-clamp-2 leading-relaxed">
+            {description}
+          </p>
+        )}
+      </div>
+      <div class="mt-4 pt-2 border-t border-slate-100 flex items-center justify-between text-xs">
+        <a href={`/news/${newsSlug}/`} class="text-red-600 font-semibold group-hover:underline flex items-center space-x-1">
+          <span>বিস্তারিত পড়ুন</span>
+          <span>&rarr;</span>
+        </a>
+      </div>
+    </div>
+  </article>
+)}
+
+{variant === 'horizontal' && (
+  <article class="group bg-white rounded-lg p-3 border border-slate-200 hover:border-slate-300 hover:shadow-xs transition flex gap-3.5 items-center">
+    <div class="relative w-28 sm:w-32 aspect-square rounded-md overflow-hidden shrink-0 bg-slate-100">
+      <img 
+        src={image} 
+        alt={title} 
+        loading="lazy"
+        class="w-full h-full object-cover group-hover:scale-105 transition duration-300" 
+      />
+    </div>
+    <div class="flex-1 min-w-0">
+      <div class="flex items-center space-x-2 text-[11px] text-slate-400 mb-1">
+        <a href={`/category/${category}/`} class="text-red-600 font-semibold hover:underline">
+          {categoryMeta.name}
+        </a>
+        <span>•</span>
+        <span>{dateStr}</span>
+      </div>
+      <h4 class="font-bold text-slate-900 text-sm leading-snug group-hover:text-red-600 transition-colors line-clamp-2 mb-1">
+        <a href={`/news/${newsSlug}/`}>
+          {title}
+        </a>
+      </h4>
+    </div>
+  </article>
+)}
+
+{variant === 'compact' && (
+  <div class="py-2.5 border-b border-slate-100 last:border-b-0 group">
+    <div class="flex items-center space-x-2 text-[11px] text-slate-400 mb-1">
+      <a href={`/category/${category}/`} class="text-red-600 font-bold hover:underline">
+        {categoryMeta.name}
+      </a>
+      <span>•</span>
+      <span>{dateStr}</span>
+    </div>
+    <h4 class="font-semibold text-slate-800 text-sm leading-snug group-hover:text-red-600 transition line-clamp-2">
+      <a href={`/news/${newsSlug}/`}>
+        {title}
+      </a>
+    </h4>
+  </div>
+)}

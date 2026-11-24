@@ -1,0 +1,76 @@
+---
+---
+
+<header class="bg-white border-b border-slate-200 shadow-xs">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-5 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+    
+    <!-- Logo & Brand -->
+    <div class="flex items-center justify-between">
+      <a href="/" class="flex items-center space-x-3 group">
+        <div class="w-11 h-11 bg-gradient-to-br from-red-600 to-red-700 text-white rounded-xl flex items-center justify-center shadow-sm group-hover:from-red-700 group-hover:to-red-800 transition transform group-hover:scale-105">
+          <!-- Paper Airplane Brand Icon -->
+          <svg class="w-6 h-6 transform -rotate-12 translate-x-0.5 text-white" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/>
+          </svg>
+        </div>
+        <div>
+          <div class="flex items-center space-x-2">
+            <span class="text-2xl sm:text-3xl font-extrabold tracking-tight text-slate-900 group-hover:text-red-600 transition">
+              কাগজপ্লেন <span class="text-red-600">নিউজ</span>
+            </span>
+          </div>
+          <p class="text-xs text-slate-500 font-medium tracking-wide">
+            অর্থনীতি, ব্যবসা ও শেয়ার বাজারের নির্ভীক উড়ান
+          </p>
+        </div>
+      </a>
+
+      <!-- Mobile Search / Menu Toggle -->
+      <div class="flex items-center space-x-2 md:hidden">
+        <a href="/admin/" class="text-xs font-semibold px-2.5 py-1.5 bg-red-50 text-red-700 rounded-md border border-red-200">
+          পোস্ট লিখুন
+        </a>
+      </div>
+    </div>
+
+    <!-- Quick Market Bar & Search -->
+    <div class="flex items-center justify-between md:justify-end space-x-4">
+      
+      <!-- Mini Market Rates Bar -->
+      <div class="hidden lg:flex items-center space-x-3 bg-slate-50 border border-slate-200 rounded-lg px-3 py-1.5 text-xs">
+        <div class="flex items-center space-x-1">
+          <span class="font-bold text-slate-700">Sensex:</span>
+          <span class="text-red-600 font-semibold">৭৮,৯৪০ (-১.২%)</span>
+        </div>
+        <span class="text-slate-300">|</span>
+        <div class="flex items-center space-x-1">
+          <span class="font-bold text-slate-700">Nifty:</span>
+          <span class="text-green-600 font-semibold">২৪,১৫০ (+০.৪%)</span>
+        </div>
+        <span class="text-slate-300">|</span>
+        <div class="flex items-center space-x-1">
+          <span class="font-bold text-slate-700">Gold:</span>
+          <span class="text-amber-600 font-semibold">₹৭৬,৫০০</span>
+        </div>
+      </div>
+
+      <!-- Quick Search input -->
+      <form action="/" method="GET" class="relative w-full md:w-60" id="site-search-form">
+        <input 
+          type="text" 
+          name="q"
+          id="site-search-input"
+          placeholder="সংবাদ খুঁজুন..." 
+          class="w-full text-sm bg-slate-50 border border-slate-200 rounded-full pl-9 pr-3 py-1.5 text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-red-500 focus:bg-white transition"
+        />
+        <button type="submit" aria-label="খুঁজুন" class="absolute left-3 top-2.5 text-slate-400 hover:text-red-600 transition">
+          <svg class="w-4 h-4 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+          </svg>
+        </button>
+      </form>
+
+    </div>
+
+  </div>
+</header>

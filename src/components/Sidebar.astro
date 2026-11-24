@@ -1,0 +1,134 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import NewsCard from './NewsCard.astro';
+import { CATEGORY_LIST } from '../utils/categories';
+
+export interface Props {
+  trendingNews: CollectionEntry<'news'>[];
+}
+
+const { trendingNews } = Astro.props;
+---
+
+<aside class="space-y-8">
+  
+  <!-- Market Watch Widget -->
+  <div class="bg-white rounded-xl p-5 border border-slate-200 shadow-xs">
+    <div class="flex items-center justify-between pb-3 mb-3 border-b border-slate-100">
+      <h3 class="font-bold text-slate-900 text-base flex items-center space-x-2">
+        <svg class="w-4 h-4 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path>
+        </svg>
+        <span>বাজারের এক নজর (Market Watch)</span>
+      </h3>
+      <span class="inline-block w-2 h-2 rounded-full bg-emerald-500 animate-ping"></span>
+    </div>
+    
+    <div class="space-y-3 text-sm">
+      <div class="flex items-center justify-between py-1 border-b border-slate-50">
+        <div>
+          <span class="font-bold text-slate-800">BSE Sensex</span>
+          <p class="text-[10px] text-slate-400">মুম্বাই স্টক এক্সচেঞ্জ</p>
+        </div>
+        <div class="text-right">
+          <span class="font-bold text-red-600">৭৮,৯৪০.৫০</span>
+          <p class="text-[10px] text-red-500 font-semibold">-১,৭০০.০০ (-২.১০%)</p>
+        </div>
+      </div>
+
+      <div class="flex items-center justify-between py-1 border-b border-slate-50">
+        <div>
+          <span class="font-bold text-slate-800">NSE Nifty 50</span>
+          <p class="text-[10px] text-slate-400">ন্যাশনাল স্টক এক্সচেঞ্জ</p>
+        </div>
+        <div class="text-right">
+          <span class="font-bold text-red-600">২৪,১৪০.২০</span>
+          <p class="text-[10px] text-red-500 font-semibold">-৪৩০.০০ (-১.৭৫%)</p>
+        </div>
+      </div>
+
+      <div class="flex items-center justify-between py-1 border-b border-slate-50">
+        <div>
+          <span class="font-bold text-slate-800">সোনার দর (২৪ ক্যারাট)</span>
+          <p class="text-[10px] text-slate-400">প্রতি ১০ গ্রাম (MCX)</p>
+        </div>
+        <div class="text-right">
+          <span class="font-bold text-amber-700">₹৭৬,৫০০</span>
+          <p class="text-[10px] text-amber-600 font-semibold">-₹১,৪৫০</p>
+        </div>
+      </div>
+
+      <div class="flex items-center justify-between py-1">
+        <div>
+          <span class="font-bold text-slate-800">ডলার বনাম টাকা</span>
+          <p class="text-[10px] text-slate-400">USD to INR</p>
+        </div>
+        <div class="text-right">
+          <span class="font-bold text-slate-700">₹৮৮.৪৫</span>
+          <p class="text-[10px] text-emerald-600 font-semibold">+০.১৫</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Trending / Popular Stories -->
+  <div class="bg-white rounded-xl p-5 border border-slate-200 shadow-xs">
+    <div class="flex items-center justify-between pb-3 mb-3 border-b border-slate-100">
+      <h3 class="font-bold text-slate-900 text-base flex items-center space-x-2">
+        <span class="w-2.5 h-2.5 bg-red-600 rounded-full"></span>
+        <span>সর্বাধিক পঠিত খবর</span>
+      </h3>
+    </div>
+    
+    <div class="space-y-1">
+      {trendingNews.slice(0, 5).map((news) => (
+        <NewsCard news={news} variant="compact" />
+      ))}
+    </div>
+  </div>
+
+  <!-- Categories Pill Cloud -->
+  <div class="bg-white rounded-xl p-5 border border-slate-200 shadow-xs">
+    <h3 class="font-bold text-slate-900 text-base pb-3 mb-3 border-b border-slate-100">
+      ক্যাটাগরি বাছুন
+    </h3>
+    <div class="flex flex-wrap gap-2">
+      {CATEGORY_LIST.map((cat) => (
+        <a 
+          href={`/category/${cat.slug}/`}
+          class="text-xs font-medium px-3 py-1.5 rounded-full bg-slate-100 hover:bg-red-600 hover:text-white text-slate-700 transition"
+        >
+          {cat.name}
+        </a>
+      ))}
+    </div>
+  </div>
+
+  <!-- Newsletter / Telegram Community Banner -->
+  <div class="bg-gradient-to-br from-slate-900 to-red-950 text-white rounded-xl p-6 shadow-md">
+    <div class="w-10 h-10 bg-red-600/30 rounded-lg flex items-center justify-center text-red-400 mb-3">
+      <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 00-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.75-.55 2.92-1.27 4.86-2.11 5.83-2.52 2.78-1.16 3.35-1.36 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .38z"/>
+      </svg>
+    </div>
+    <h4 class="font-bold text-lg mb-1">দৈনিক আপডেট পান</h4>
+    <p class="text-xs text-slate-300 mb-4 leading-relaxed">
+      শেয়ার বাজার ও বাণিজ্যের জরুরি খবর সরাসরি আপনার হোয়াটসঅ্যাপ ও টেলিগ্রামে পেতে যুক্ত হোন।
+    </p>
+    <a 
+      href="https://telegram.org" 
+      target="_blank" 
+      rel="noopener noreferrer"
+      class="block text-center w-full bg-red-600 hover:bg-red-700 text-white font-bold text-xs py-2.5 rounded-lg transition"
+    >
+      টেলিগ্রাম চ্যানেলে যুক্ত হন
+    </a>
+  </div>
+
+  <!-- Ad Space Placeholder (AdSense Ready) -->
+  <div class="bg-slate-100 border border-dashed border-slate-300 rounded-xl p-6 text-center text-xs text-slate-400">
+    <span class="block font-semibold uppercase tracking-wider mb-1">বিজ্ঞাপন স্থান (Ad Space)</span>
+    <span>Google AdSense / ব্যানার বিজ্ঞাপনের জায়গা</span>
+  </div>
+
+</aside>
