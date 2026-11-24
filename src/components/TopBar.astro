@@ -28,20 +28,20 @@ const formattedDate = `${dayName}, ${dateNum} ${monthName}, ${yearNum}`;
     
     <!-- Breaking News Ticker -->
     <div class="flex items-center space-x-3 overflow-hidden flex-1 mr-4">
-      <span class="inline-flex items-center px-2 py-0.5 rounded text-[11px] font-bold bg-red-600 text-white uppercase tracking-wider shrink-0 animate-pulse">
+      <span class="inline-flex items-center px-2 py-0.5 rounded text-[11px] font-bold bg-amber-500 text-slate-950 uppercase tracking-wider shrink-0 animate-pulse">
         ব্রেকিং নিউজ
       </span>
       <div class="overflow-hidden whitespace-nowrap relative w-full">
         <div class="animate-ticker inline-flex items-center space-x-8">
           {breakingNews.map((news) => (
-            <a href={`/news/${news.id}/`} class="hover:text-red-400 transition-colors flex items-center space-x-2">
-              <span class="text-red-500 font-bold">•</span>
+            <a href={`/news/${news.id}/`} class="hover:text-amber-300 transition-colors flex items-center space-x-2">
+              <span class="text-amber-400 font-bold">•</span>
               <span>{news.data.title}</span>
             </a>
           ))}
           {breakingNews.map((news) => (
-            <a href={`/news/${news.id}/`} class="hover:text-red-400 transition-colors flex items-center space-x-2">
-              <span class="text-red-500 font-bold">•</span>
+            <a href={`/news/${news.id}/`} class="hover:text-amber-300 transition-colors flex items-center space-x-2">
+              <span class="text-amber-400 font-bold">•</span>
               <span>{news.data.title}</span>
             </a>
           ))}

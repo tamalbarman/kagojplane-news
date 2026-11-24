@@ -11,8 +11,8 @@ export interface Props {
 
 const {
   title,
-  description = 'দৈনন্দিন ব্যবসা, শেয়ার বাজার, অর্থনীতি ও সরকারি খবরের বিশ্বস্ত পোর্টাল',
-  image = 'https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=1200&auto=format&fit=crop&q=80',
+  description = 'দৈনন্দিন ভ্রমণ আপডেট, পাহাড়ে আবহাওয়া সতর্কতা, রবিবারের স্পেশাল রেসিপি ও সংবাদের বিশ্বস্ত পোর্টাল',
+  image = '/images/og-image.jpg',
   articleDate,
   author = 'দ্য কাগজপ্লেন',
   category,
@@ -40,7 +40,7 @@ const schemaData = type === 'article' ? {
     'url': Astro.site ? Astro.site.toString() : 'https://thekagojplane.netlify.app',
     'logo': {
       '@type': 'ImageObject',
-      'url': new URL('/favicon.svg', Astro.site || 'https://thekagojplane.netlify.app').toString()
+      'url': new URL('/images/logo.png', Astro.site || 'https://thekagojplane.netlify.app').toString()
     }
   },
   'mainEntityOfPage': {
@@ -72,6 +72,9 @@ import '../styles/global.css';
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <link rel="icon" type="image/png" sizes="48x48" href="/favicon.png" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png" />
   <link rel="canonical" href={canonicalURL} />
   
   <title>{title} | {siteName}</title>
@@ -79,7 +82,7 @@ import '../styles/global.css';
   <meta name="description" content={description} />
   <meta name="author" content={author} />
   <meta name="robots" content="index, follow" />
-  <meta name="theme-color" content="#DC2626" />
+  <meta name="theme-color" content="#1E3A2B" />
 
   <!-- Font preconnect & PWA Manifest -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />

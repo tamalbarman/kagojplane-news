@@ -6,28 +6,31 @@
     
     <!-- Logo & Brand -->
     <div class="flex items-center justify-between">
-      <a href="/" class="flex items-center space-x-3 group">
-        <div class="w-11 h-11 bg-gradient-to-br from-red-600 to-red-700 text-white rounded-xl flex items-center justify-center shadow-sm group-hover:from-red-700 group-hover:to-red-800 transition transform group-hover:scale-105">
-          <!-- Paper Airplane Brand Icon -->
-          <svg class="w-6 h-6 transform -rotate-12 translate-x-0.5 text-white" viewBox="0 0 24 24" fill="currentColor">
-            <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/>
-          </svg>
+      <a href="/" class="flex items-center space-x-3.5 group">
+        <div class="relative w-12 h-12 sm:w-14 sm:h-14 rounded-full overflow-hidden shadow-sm ring-2 ring-amber-500/30 group-hover:ring-amber-500/60 transition-all duration-300 transform group-hover:scale-105 shrink-0 bg-emerald-950">
+          <img 
+            src="/images/logo.png" 
+            alt="দ্য কাগজপ্লেন লোগো" 
+            width="56" 
+            height="56" 
+            class="w-full h-full object-cover" 
+          />
         </div>
         <div>
           <div class="flex items-center space-x-2">
-            <span class="text-2xl sm:text-3xl font-extrabold tracking-tight text-slate-900 group-hover:text-red-600 transition">
-              দ্য <span class="text-red-600">কাগজপ্লেন</span>
+            <span class="text-2xl sm:text-3xl font-extrabold tracking-tight text-slate-900 group-hover:text-emerald-900 transition">
+              দ্য <span class="text-emerald-800">কাগজপ্লেন</span>
             </span>
           </div>
           <p class="text-xs text-slate-500 font-medium tracking-wide">
-            অর্থনীতি, ব্যবসা ও শেয়ার বাজারের নির্ভীক উড়ান
+            ভ্রমণ আপডেট, আবহাওয়া, সংবাদ ও রবিবারের রেসিপি
           </p>
         </div>
       </a>
 
       <!-- Mobile Search / Menu Toggle -->
       <div class="flex items-center space-x-2 md:hidden">
-        <a href="/admin/" class="text-xs font-semibold px-2.5 py-1.5 bg-red-50 text-red-700 rounded-md border border-red-200">
+        <a href="/admin/" class="text-xs font-semibold px-2.5 py-1.5 bg-emerald-50 text-emerald-800 rounded-md border border-emerald-200">
           পোস্ট লিখুন
         </a>
       </div>
@@ -61,9 +64,9 @@
           name="q"
           id="site-search-input"
           placeholder="সংবাদ খুঁজুন..." 
-          class="w-full text-sm bg-slate-50 border border-slate-200 rounded-full pl-9 pr-3 py-1.5 text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-red-500 focus:bg-white transition"
+          class="w-full text-sm bg-slate-50 border border-slate-200 rounded-full pl-9 pr-3 py-1.5 text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-emerald-700 focus:bg-white transition"
         />
-        <button type="submit" aria-label="খুঁজুন" class="absolute left-3 top-2.5 text-slate-400 hover:text-red-600 transition">
+        <button type="submit" aria-label="খুঁজুন" class="absolute left-3 top-2.5 text-slate-400 hover:text-emerald-700 transition">
           <svg class="w-4 h-4 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
           </svg>

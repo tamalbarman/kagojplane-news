@@ -75,7 +75,7 @@ const { trendingNews } = Astro.props;
   <div class="bg-white rounded-xl p-5 border border-slate-200 shadow-xs">
     <div class="flex items-center justify-between pb-3 mb-3 border-b border-slate-100">
       <h3 class="font-bold text-slate-900 text-base flex items-center space-x-2">
-        <span class="w-2.5 h-2.5 bg-red-600 rounded-full"></span>
+        <span class="w-2.5 h-2.5 bg-emerald-700 rounded-full"></span>
         <span>সর্বাধিক পঠিত খবর</span>
       </h3>
     </div>
@@ -96,7 +96,7 @@ const { trendingNews } = Astro.props;
       {CATEGORY_LIST.map((cat) => (
         <a 
           href={`/category/${cat.slug}/`}
-          class="text-xs font-medium px-3 py-1.5 rounded-full bg-slate-100 hover:bg-red-600 hover:text-white text-slate-700 transition"
+          class="text-xs font-medium px-3 py-1.5 rounded-full bg-slate-100 hover:bg-emerald-800 hover:text-white text-slate-700 transition"
         >
           {cat.name}
         </a>
@@ -105,21 +105,21 @@ const { trendingNews } = Astro.props;
   </div>
 
   <!-- Newsletter / Telegram Community Banner -->
-  <div class="bg-gradient-to-br from-slate-900 to-red-950 text-white rounded-xl p-6 shadow-md">
-    <div class="w-10 h-10 bg-red-600/30 rounded-lg flex items-center justify-center text-red-400 mb-3">
+  <div class="bg-gradient-to-br from-slate-900 to-emerald-950 text-white rounded-xl p-6 shadow-md">
+    <div class="w-10 h-10 bg-emerald-600/30 rounded-lg flex items-center justify-center text-emerald-400 mb-3">
       <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
         <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 00-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.75-.55 2.92-1.27 4.86-2.11 5.83-2.52 2.78-1.16 3.35-1.36 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .38z"/>
       </svg>
     </div>
     <h4 class="font-bold text-lg mb-1">দৈনিক আপডেট পান</h4>
     <p class="text-xs text-slate-300 mb-4 leading-relaxed">
-      শেয়ার বাজার ও বাণিজ্যের জরুরি খবর সরাসরি আপনার হোয়াটসঅ্যাপ ও টেলিগ্রামে পেতে যুক্ত হোন।
+      পাহাড়ে ভ্রমণ সতর্কতা, আবহাওয়া ও স্পেশাল রেসিপির তাজা খবর সরাসরি পেতে যুক্ত হোন।
     </p>
     <a 
       href="https://telegram.org" 
       target="_blank" 
       rel="noopener noreferrer"
-      class="block text-center w-full bg-red-600 hover:bg-red-700 text-white font-bold text-xs py-2.5 rounded-lg transition"
+      class="block text-center w-full bg-emerald-700 hover:bg-emerald-800 text-white font-bold text-xs py-2.5 rounded-lg transition"
     >
       টেলিগ্রাম চ্যানেলে যুক্ত হন
     </a>

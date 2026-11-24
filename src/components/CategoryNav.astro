@@ -4,7 +4,7 @@ import { CATEGORY_LIST } from '../utils/categories';
 const currentPath = Astro.url.pathname;
 ---
 
-<nav class="bg-red-700 text-white sticky top-0 z-40 shadow-md">
+<nav class="bg-[#1E3A2B] text-white sticky top-0 z-40 shadow-md border-b border-emerald-950">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="flex items-center space-x-1 overflow-x-auto no-scrollbar py-1">
       
@@ -13,11 +13,11 @@ const currentPath = Astro.url.pathname;
         href="/" 
         class={`px-3 py-2 rounded font-semibold text-sm whitespace-nowrap transition-colors flex items-center space-x-1 ${
           currentPath === '/' 
-            ? 'bg-red-900 text-white shadow-inner' 
-            : 'hover:bg-red-800 text-red-50'
+            ? 'bg-emerald-900 text-amber-300 shadow-inner' 
+            : 'hover:bg-emerald-900/80 text-emerald-100 hover:text-white'
         }`}
       >
-        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <svg class="w-4 h-4 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
         </svg>
         <span>প্রচ্ছদ</span>
@@ -31,8 +31,8 @@ const currentPath = Astro.url.pathname;
             href={`/category/${cat.slug}/`}
             class={`px-3 py-2 rounded font-medium text-sm whitespace-nowrap transition-colors ${
               isActive 
-                ? 'bg-red-900 text-white shadow-inner font-bold' 
-                : 'hover:bg-red-800 text-red-100 hover:text-white'
+                ? 'bg-emerald-900 text-amber-300 shadow-inner font-bold' 
+                : 'hover:bg-emerald-900/80 text-emerald-100 hover:text-white'
             }`}
           >
             {cat.name}

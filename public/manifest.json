@@ -1,16 +1,28 @@
 {
   "name": "দ্য কাগজপ্লেন - The Kagojplane",
   "short_name": "কাগজপ্লেন",
-  "description": "দৈনন্দিন ব্যবসা, শেয়ার বাজার, অর্থনীতি ও সরকারি খবরের বিশ্বস্ত বাংলা পোর্টাল",
+  "description": "ভ্রমণ আপডেট, পাহাড়ে আবহাওয়া সতর্কতা ও রবিবারের স্পেশাল রেসিপির নির্ভরযোগ্য পোর্টাল",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#0F172A",
-  "theme_color": "#DC2626",
+  "background_color": "#14281E",
+  "theme_color": "#1E3A2B",
   "icons": [
     {
       "src": "/favicon.svg",
       "sizes": "any",
       "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "/images/logo-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/images/logo-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
       "purpose": "any maskable"
     }
   ]
