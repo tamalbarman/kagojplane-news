@@ -106,3 +106,14 @@ html.dark .prose h1, html.dark .prose h2, html.dark .prose h3, html.dark .prose 
 html.dark .prose strong {
   color: #F1F5F9 !important;
 }
+
+/* Suppress Netlify HUD / Floating Badge overlay if injected */
+netlify-drawer,
+[data-netlify-hud],
+.netlify-badge,
+#netlify-hud {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
