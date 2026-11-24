@@ -119,13 +119,13 @@ const searchIndex = sortedNews.map(n => ({
       />
 
       <!-- In-feed Sponsor / Ad banner -->
-      <div class="bg-gradient-to-r from-red-600 to-amber-600 rounded-xl p-6 text-white flex flex-col sm:flex-row items-center justify-between gap-4 shadow-sm">
+      <div class="bg-gradient-to-r from-emerald-950 via-[#1E3A2B] to-slate-900 border border-emerald-800/80 rounded-xl p-6 text-white flex flex-col sm:flex-row items-center justify-between gap-4 shadow-sm">
         <div>
-          <span class="text-xs font-bold uppercase tracking-wider bg-white/20 px-2 py-0.5 rounded">সরাসরি আপডেট</span>
-          <h4 class="text-xl font-bold mt-1">স্টকমার্কেট ও ব্যবসার ব্রেকিং নিউজ মিস করবেন না</h4>
-          <p class="text-xs text-red-100 mt-1">আমাদের আরএসএস ও সোশ্যাল চ্যানেলগুলোতে যুক্ত থাকুন</p>
+          <span class="text-xs font-bold uppercase tracking-wider bg-white/20 px-2 py-0.5 rounded text-amber-300">সরাসরি আপডেট</span>
+          <h4 class="text-xl font-bold mt-1">স্টকমার্কেট, ভ্রমণ ও ব্যবসার ব্রেকিং নিউজ মিস করবেন না</h4>
+          <p class="text-xs text-emerald-200 mt-1">আমাদের আরএসএস ও হোয়াটসঅ্যাপ চ্যানেলে যুক্ত থাকুন</p>
         </div>
-        <a href="/rss.xml" class="bg-white text-red-700 hover:bg-red-50 font-bold text-xs px-4 py-2.5 rounded-lg whitespace-nowrap shadow-xs transition">
+        <a href="/rss.xml" class="bg-amber-500 text-slate-950 hover:bg-amber-400 font-bold text-xs px-4 py-2.5 rounded-lg whitespace-nowrap shadow-xs transition">
           RSS Feed সাবস্ক্রাইব করুন
         </a>
       </div>
@@ -212,13 +212,13 @@ const searchIndex = sortedNews.map(n => ({
                     <span>•</span>
                     <span>${item.dateStr}</span>
                   </div>
-                  <h4 class="font-bold text-slate-900 text-base leading-snug line-clamp-2 hover:text-red-600 transition mb-2">
+                  <h4 class="font-bold text-slate-900 dark:text-white text-base leading-snug line-clamp-2 hover:text-emerald-700 dark:hover:text-emerald-400 transition mb-2">
                     <a href={'/news/' + item.id + '/'}>` + item.title + `</a>
                   </h4>
-                  <p class="text-slate-500 text-xs line-clamp-2">` + item.description + `</p>
+                  <p class="text-slate-500 dark:text-slate-400 text-xs line-clamp-2">` + item.description + `</p>
                 </div>
-                <div class="mt-4 pt-2 border-t border-slate-100 text-xs">
-                  <a href={'/news/' + item.id + '/'} class="text-red-600 font-bold hover:underline flex items-center space-x-1">
+                <div class="mt-4 pt-2 border-t border-slate-100 dark:border-slate-800 text-xs">
+                  <a href={'/news/' + item.id + '/'} class="text-emerald-800 dark:text-emerald-400 font-bold hover:underline flex items-center space-x-1">
                     <span>বিস্তারিত পড়ুন</span>
                     <span>&rarr;</span>
                   </a>

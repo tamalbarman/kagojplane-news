@@ -1,4 +1,4 @@
----
+﻿---
 title: "India’s $44-billion space economy goal faces funding and business visibility gaps: ISpA Chairman Ramchandani"
 description: "India’s $44-billion space economy goal faces funding and business visibility gaps: ISpA Chairman Ramchandani সংক্রান্ত বিস্তারিত তথ্য ও সর্বশেষ আপডেট।"
 pubDate: 2026-11-23T14:41:31.000Z
@@ -26,3 +26,4 @@ India’s $44-billion space economy goal faces funding and business visibility g
 > [!NOTE] 
 > **তথ্যসূত্র ও সচেতনতা বিজ্ঞপ্তি:**  
 > এই প্রতিবেদনের প্রাথমিক তথ্যসূত্র: *BusinessLine*। দ্য কাগজপ্লেন সম্পাদকীয় নীতিমালার আওতায় কপিরাইট সুরক্ষিত রাখতে এবং পাঠকদের নির্ভুল তথ্য প্রদান করতে এই প্রতিবেদনটি পুনঃপর্যালোচনা করে তৈরি করা হয়েছে। কোনো প্রকার কপিরাইট প্রশ্ন থাকলে contact@kagojplane.com-এ যোগাযোগ করুন।
+

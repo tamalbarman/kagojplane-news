@@ -30,7 +30,7 @@ const currentYear = new Date().getFullYear();
         </p>
         <div class="text-xs text-slate-400 space-y-1">
           <p><strong class="text-slate-300">ইমেল:</strong> contact@kagojplane.com</p>
-          <p><strong class="text-slate-300">সম্পাদক:</strong> সুনন্দা সেন</p>
+          <p><strong class="text-slate-300">সম্পাদকীয় ডেস্ক:</strong> দ্য কাগজপ্লেন বার্তা বিভাগ</p>
         </div>
       </div>
 
@@ -42,7 +42,7 @@ const currentYear = new Date().getFullYear();
         <ul class="space-y-2 text-xs">
           {CATEGORY_LIST.slice(0, 5).map((cat) => (
             <li>
-              <a href={`/category/${cat.slug}/`} class="hover:text-red-400 transition-colors">
+              <a href={`/category/${cat.slug}/`} class="hover:text-amber-400 transition-colors">
                 {cat.name} ({cat.englishName})
               </a>
             </li>
@@ -58,7 +58,7 @@ const currentYear = new Date().getFullYear();
         <ul class="space-y-2 text-xs">
           {CATEGORY_LIST.slice(5).map((cat) => (
             <li>
-              <a href={`/category/${cat.slug}/`} class="hover:text-red-400 transition-colors">
+              <a href={`/category/${cat.slug}/`} class="hover:text-amber-400 transition-colors">
                 {cat.name} ({cat.englishName})
               </a>
             </li>
@@ -79,21 +79,21 @@ const currentYear = new Date().getFullYear();
             </a>
           </li>
           <li>
-            <a href="/rss.xml" class="hover:text-red-400 transition-colors">
+            <a href="/rss.xml" class="hover:text-amber-400 transition-colors">
               আরএসএস ফিড (RSS Feed)
             </a>
           </li>
           <li>
-            <a href="/about/" class="hover:text-red-400 transition-colors">আমাদের সম্পর্কে (About Us)</a>
+            <a href="/about/" class="hover:text-amber-400 transition-colors">আমাদের সম্পর্কে (About Us)</a>
           </li>
           <li>
-            <a href="/privacy/" class="hover:text-red-400 transition-colors">গোপনীয়তা নীতি (Privacy Policy)</a>
+            <a href="/privacy/" class="hover:text-amber-400 transition-colors">গোপনীয়তা নীতি (Privacy Policy)</a>
           </li>
           <li>
-            <a href="/terms/" class="hover:text-red-400 transition-colors">ব্যবহারের শর্তাবলী (Terms of Use)</a>
+            <a href="/terms/" class="hover:text-amber-400 transition-colors">ব্যবহারের শর্তাবলী (Terms of Use)</a>
           </li>
           <li>
-            <a href="/contact/" class="hover:text-red-400 transition-colors">যোগাযোগ (Contact Us)</a>
+            <a href="/contact/" class="hover:text-amber-400 transition-colors">যোগাযোগ (Contact Us)</a>
           </li>
         </ul>
       </div>

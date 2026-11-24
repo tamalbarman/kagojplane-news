@@ -7,7 +7,7 @@ const newsCollection = defineCollection({
     title: z.string(),
     description: z.string().optional(),
     pubDate: z.coerce.date(),
-    author: z.string().default('Sunanda Sen'),
+    author: z.string().default('দ্য কাগজপ্লেন বার্তা বিভাগ'),
     category: z.string(),
     categoryName: z.string().optional(),
     image: z.string().default('https://images.unsplash.com/photo-1590283603385-17ffb3a7f29f?w=800&auto=format&fit=crop&q=80'),

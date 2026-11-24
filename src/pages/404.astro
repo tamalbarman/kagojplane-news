@@ -5,7 +5,7 @@ import { CATEGORY_LIST } from '../utils/categories';
 
 <Layout title="পৃষ্ঠাটি পাওয়া যায়নি (404 Not Found)">
   <div class="max-w-2xl mx-auto py-16 px-4 text-center">
-    <div class="inline-flex items-center justify-center w-24 h-24 rounded-full bg-red-100 text-red-600 font-extrabold text-4xl mb-6 shadow-xs">
+    <div class="inline-flex items-center justify-center w-24 h-24 rounded-full bg-emerald-100 text-emerald-800 font-extrabold text-4xl mb-6 shadow-xs">
       ৪০৪
     </div>
     
@@ -24,7 +24,7 @@ import { CATEGORY_LIST } from '../utils/categories';
           type="text" 
           name="q" 
           placeholder="অন্য কোনো সংবাদ খুঁজুন..." 
-          class="w-full text-sm bg-white border border-slate-300 rounded-full pl-10 pr-4 py-2.5 text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-red-500 shadow-xs"
+          class="w-full text-sm bg-white border border-slate-300 rounded-full pl-10 pr-4 py-2.5 text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-emerald-600 shadow-xs"
         />
         <svg class="w-4 h-4 absolute left-3.5 top-3.5 text-slate-400 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
@@ -36,16 +36,16 @@ import { CATEGORY_LIST } from '../utils/categories';
     <div class="flex flex-wrap justify-center gap-4 mb-12">
       <a 
         href="/" 
-        class="bg-red-600 hover:bg-red-700 text-white font-bold text-sm px-6 py-2.5 rounded-lg transition shadow-xs flex items-center space-x-2"
+        class="bg-emerald-800 hover:bg-emerald-900 text-white font-bold text-sm px-6 py-2.5 rounded-lg transition shadow-xs flex items-center space-x-2"
       >
         <span>&larr;</span>
         <span>প্রধান পাতায় ফিরে যান</span>
       </a>
       <a 
-        href="/category/stock-market/" 
+        href="/category/travel/" 
         class="bg-slate-200 hover:bg-slate-300 text-slate-800 font-bold text-sm px-6 py-2.5 rounded-lg transition"
       >
-        শেয়ার বাজার সংবাদ দেখুন
+        ভ্রমণ ও আবহাওয়া দেখুন
       </a>
     </div>
 
@@ -56,7 +56,7 @@ import { CATEGORY_LIST } from '../utils/categories';
         {CATEGORY_LIST.slice(0, 6).map((cat) => (
           <a 
             href={`/category/${cat.slug}/`} 
-            class="text-xs bg-white border border-slate-200 hover:border-red-500 hover:text-red-600 text-slate-700 px-3 py-1.5 rounded-full transition"
+            class="text-xs bg-white border border-slate-200 hover:border-emerald-600 hover:text-emerald-800 text-slate-700 px-3 py-1.5 rounded-full transition"
           >
             {cat.name}
           </a>

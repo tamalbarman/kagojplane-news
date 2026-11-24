@@ -106,6 +106,23 @@ html.dark .prose h1, html.dark .prose h2, html.dark .prose h3, html.dark .prose 
 html.dark .prose strong {
   color: #F1F5F9 !important;
 }
+html.dark input, 
+html.dark textarea, 
+html.dark select {
+  background-color: #162C20 !important;
+  color: #F8FAFC !important;
+  border-color: #1E3A2B !important;
+}
+html.dark input::placeholder, 
+html.dark textarea::placeholder {
+  color: #94A3B8 !important;
+}
+html.dark .text-slate-500 {
+  color: #94A3B8 !important;
+}
+html.dark .text-slate-600 {
+  color: #CBD5E1 !important;
+}
 
 /* Suppress Netlify HUD / Floating Badge overlay if injected */
 netlify-drawer,
