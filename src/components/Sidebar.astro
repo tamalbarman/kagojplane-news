@@ -187,24 +187,29 @@ const { trendingNews } = Astro.props;
     </div>
   </div>
 
-  <!-- Newsletter / Telegram Community Banner -->
-  <div class="bg-gradient-to-br from-slate-900 to-emerald-950 text-white rounded-xl p-6 shadow-md">
-    <div class="w-10 h-10 bg-emerald-600/30 rounded-lg flex items-center justify-center text-emerald-400 mb-3">
-      <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 00-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.75-.55 2.92-1.27 4.86-2.11 5.83-2.52 2.78-1.16 3.35-1.36 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .38z"/>
-      </svg>
+  <!-- WhatsApp & Community Channel Card -->
+  <div class="bg-gradient-to-br from-[#121F17] to-emerald-950 text-white rounded-xl p-6 shadow-md border border-emerald-800/60">
+    <div class="flex items-center space-x-3 mb-3">
+      <div class="w-10 h-10 bg-emerald-500 rounded-lg flex items-center justify-center text-white shrink-0 shadow-sm">
+        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+          <path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91C2.13 13.66 2.59 15.36 3.45 16.86L2.05 22L7.3 20.62C8.75 21.41 10.38 21.83 12.04 21.83C17.5 21.83 21.95 17.38 21.95 11.92C21.95 9.27 20.92 6.78 19.05 4.91C17.18 3.03 14.69 2 12.04 2M12.05 3.67C14.25 3.67 16.31 4.53 17.87 6.09C19.42 7.65 20.28 9.72 20.28 11.92C20.28 16.46 16.58 20.15 12.04 20.15C10.56 20.15 9.11 19.76 7.85 19L7.55 18.83L4.43 19.65L5.26 16.61L5.06 16.29C4.24 14.99 3.8 13.47 3.8 11.91C3.81 7.37 7.5 3.67 12.05 3.67Z"/>
+        </svg>
+      </div>
+      <div>
+        <h4 class="font-bold text-base text-amber-300">WhatsApp চ্যানেলে যুক্ত হন</h4>
+        <p class="text-[11px] text-emerald-200">সরাসরি মোবাইলে তাজা খবর পান</p>
+      </div>
     </div>
-    <h4 class="font-bold text-lg mb-1">দৈনিক আপডেট পান</h4>
     <p class="text-xs text-slate-300 mb-4 leading-relaxed">
-      পাহাড়ে ভ্রমণ সতর্কতা, আবহাওয়া ও স্পেশাল রেসিপির তাজা খবর সরাসরি পেতে যুক্ত হোন।
+      পাহাড়ে ট্রাভেল সতর্কতা, আবহাওয়া এবং রবিবারের স্পেশাল রেসিপির আপডেট সবার আগে পেতে আমাদের চ্যানেলে যুক্ত থাকুন।
     </p>
     <a 
-      href="https://telegram.org" 
+      href="https://whatsapp.com/channel/example" 
       target="_blank" 
       rel="noopener noreferrer"
-      class="block text-center w-full bg-emerald-700 hover:bg-emerald-800 text-white font-bold text-xs py-2.5 rounded-lg transition"
+      class="block text-center w-full bg-emerald-500 hover:bg-emerald-600 text-white font-extrabold text-xs py-2.5 rounded-lg shadow-sm transition"
     >
-      টেলিগ্রাম চ্যানেলে যুক্ত হন
+      হোয়াটসঅ্যাপ চ্যানেল ফলো করুন
     </a>
   </div>
 

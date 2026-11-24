@@ -116,6 +116,61 @@ const readingTimeText = `${bengaliDigits(readMinutes)} মিনিট পড়া
         <ShareButtons title={entry.data.title} url={Astro.url.href} />
       </div>
 
+      <!-- Bengali Audio News Reader Bar -->
+      <div id="audio-news-player" class="mb-6 p-3 sm:p-4 rounded-xl bg-gradient-to-r from-emerald-50 via-slate-50 to-amber-50/40 border border-emerald-100 flex flex-col sm:flex-row sm:items-center justify-between gap-3 shadow-xs">
+        <div class="flex items-center space-x-3">
+          <button 
+            id="audio-play-btn" 
+            type="button" 
+            class="w-10 h-10 rounded-full bg-emerald-700 hover:bg-emerald-800 text-white flex items-center justify-center transition shadow-xs focus:outline-hidden shrink-0 cursor-pointer" 
+            title="সংবাদ শুনুন"
+            aria-label="সংবাদ শুনুন"
+          >
+            <!-- Play Icon -->
+            <svg id="audio-icon-play" class="w-5 h-5 ml-0.5" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M8 5v14l11-7z" />
+            </svg>
+            <!-- Pause Icon -->
+            <svg id="audio-icon-pause" class="w-5 h-5 hidden" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z" />
+            </svg>
+          </button>
+          
+          <div>
+            <div class="flex items-center space-x-2">
+              <span class="text-xs font-bold text-slate-900" id="audio-status-label">অডিও শুনুন (AI ভয়েস রিডার)</span>
+              <span id="audio-playing-indicator" class="hidden items-center space-x-0.5">
+                <span class="w-1 h-3 bg-emerald-600 animate-pulse rounded-full inline-block"></span>
+                <span class="w-1 h-4 bg-emerald-500 animate-pulse delay-75 rounded-full inline-block"></span>
+                <span class="w-1 h-2 bg-emerald-600 animate-pulse delay-150 rounded-full inline-block"></span>
+              </span>
+            </div>
+            <p class="text-[11px] text-slate-500" id="audio-sub-label">ক্লিক করে বাংলায় সম্পূর্ণ প্রতিবেদনটি শুনুন</p>
+          </div>
+        </div>
+
+        <div class="flex items-center space-x-2 self-end sm:self-auto">
+          <!-- Speed control -->
+          <button 
+            id="audio-speed-btn" 
+            type="button" 
+            class="px-2.5 py-1 rounded-md bg-white border border-slate-200 text-slate-700 text-xs font-bold hover:bg-slate-100 transition cursor-pointer"
+            title="পড়ার গতি পরিবর্তন করুন"
+          >
+            ১.০x
+          </button>
+          <!-- Stop button -->
+          <button 
+            id="audio-stop-btn" 
+            type="button" 
+            class="px-2.5 py-1 rounded-md bg-white border border-slate-200 text-slate-600 text-xs font-semibold hover:bg-rose-50 hover:text-rose-600 hover:border-rose-200 transition hidden cursor-pointer"
+            title="অডিও বন্ধ করুন"
+          >
+            থামান
+          </button>
+        </div>
+      </div>
+
       <!-- Featured Image -->
       <figure class="mb-8 rounded-xl overflow-hidden bg-slate-100 border border-slate-100">
         <img 
@@ -134,6 +189,55 @@ const readingTimeText = `${bengaliDigits(readMinutes)} মিনিট পড়া
       {entry.data.description && (
         <div class="text-base sm:text-lg font-medium text-slate-700 leading-relaxed bg-slate-50 border-l-4 border-emerald-700 p-4 rounded-r-lg mb-8">
           {entry.data.description}
+        </div>
+      )}
+
+      <!-- Interactive Recipe Cooking Card & Checklist (For Food & Recipe articles) -->
+      {entry.data.category === 'food-recipe' && (
+        <div id="recipe-helper-card" class="mb-8 rounded-xl border border-amber-200 bg-amber-50/50 p-4 sm:p-5 shadow-xs">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-amber-200/80 mb-4">
+            <div class="flex items-center space-x-2.5">
+              <span class="text-2xl">👨‍🍳</span>
+              <div>
+                <h3 class="text-sm sm:text-base font-bold text-slate-900">ইন্টারেক্টিভ রান্নার সহায়িকা ও চেকলিস্ট</h3>
+                <p class="text-xs text-slate-600">রান্না করার সময় নিচের উপকরণে টিক দিন, যাতে কোনো মশলা বাদ না পড়ে!</p>
+              </div>
+            </div>
+            <div class="flex items-center space-x-2 self-start sm:self-auto">
+              <button 
+                type="button" 
+                id="reset-recipe-checklist"
+                class="inline-flex items-center space-x-1 px-2.5 py-1.5 bg-white border border-amber-300 text-slate-700 hover:bg-amber-100 rounded-lg text-xs font-semibold shadow-2xs transition cursor-pointer"
+                title="চেকলিস্ট রিসেট করুন"
+              >
+                <span>↺ রিসেট</span>
+              </button>
+              <button 
+                type="button" 
+                onclick="window.print()" 
+                class="inline-flex items-center space-x-1.5 px-3 py-1.5 bg-amber-500 hover:bg-amber-600 text-white rounded-lg text-xs font-bold shadow-2xs transition cursor-pointer"
+                title="রেসিপি প্রিন্ট বা পিডিএফ সেভ করুন"
+              >
+                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path></svg>
+                <span>প্রিন্ট রেসিপি</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-3 gap-2 text-center text-xs">
+            <div class="bg-white/90 p-2.5 rounded-lg border border-amber-100 shadow-2xs">
+              <span class="block text-slate-500 text-[11px] mb-0.5">প্রস্তুতির সময়</span>
+              <span class="font-bold text-slate-800 text-xs sm:text-sm">১৫ মিনিট</span>
+            </div>
+            <div class="bg-white/90 p-2.5 rounded-lg border border-amber-100 shadow-2xs">
+              <span class="block text-slate-500 text-[11px] mb-0.5">রান্নার সময়</span>
+              <span class="font-bold text-slate-800 text-xs sm:text-sm">৩০ মিনিট</span>
+            </div>
+            <div class="bg-white/90 p-2.5 rounded-lg border border-amber-100 shadow-2xs">
+              <span class="block text-slate-500 text-[11px] mb-0.5">পরিবেশন</span>
+              <span class="font-bold text-slate-800 text-xs sm:text-sm">৪ জন</span>
+            </div>
+          </div>
         </div>
       )}
 
@@ -223,6 +327,149 @@ const readingTimeText = `${bengaliDigits(readMinutes)} মিনিট পড়া
           prose.style.fontSize = sizes[currentSizeLevel + 1];
         }
       });
+    }
+
+    // Interactive Recipe Checklist
+    const isRecipePage = !!document.getElementById('recipe-helper-card');
+    if (isRecipePage && prose) {
+      const listItems = prose.querySelectorAll('ul > li');
+      listItems.forEach((li, idx) => {
+        const originalText = li.innerHTML;
+        li.style.cursor = 'pointer';
+        li.style.listStyleType = 'none';
+        li.classList.add('flex', 'items-start', 'gap-2', 'py-1', 'transition', 'hover:bg-amber-50/60', 'px-2', 'rounded-md');
+        li.innerHTML = `
+          <input type="checkbox" id="rec-item-${idx}" class="recipe-checkbox mt-1.5 w-4 h-4 cursor-pointer accent-emerald-600 rounded shrink-0">
+          <label for="rec-item-${idx}" class="cursor-pointer text-slate-800 leading-relaxed">${originalText}</label>
+        `;
+        const chk = li.querySelector('.recipe-checkbox');
+        const lbl = li.querySelector('label');
+        chk?.addEventListener('change', () => {
+          if (chk.checked) {
+            lbl?.classList.add('line-through', 'opacity-50', 'text-slate-400');
+          } else {
+            lbl?.classList.remove('line-through', 'opacity-50', 'text-slate-400');
+          }
+        });
+      });
+
+      const resetBtn = document.getElementById('reset-recipe-checklist');
+      resetBtn?.addEventListener('click', () => {
+        const checkboxes = prose.querySelectorAll('.recipe-checkbox');
+        checkboxes.forEach(cb => {
+          cb.checked = false;
+          const lbl = cb.nextElementSibling;
+          lbl?.classList.remove('line-through', 'opacity-50', 'text-slate-400');
+        });
+      });
+    }
+
+    // Speech Synthesis Bengali Audio News Reader
+    const audioPlayBtn = document.getElementById('audio-play-btn');
+    const audioStopBtn = document.getElementById('audio-stop-btn');
+    const audioSpeedBtn = document.getElementById('audio-speed-btn');
+    const iconPlay = document.getElementById('audio-icon-play');
+    const iconPause = document.getElementById('audio-icon-pause');
+    const audioStatusLabel = document.getElementById('audio-status-label');
+    const audioSubLabel = document.getElementById('audio-sub-label');
+    const audioPlayingIndicator = document.getElementById('audio-playing-indicator');
+
+    if ('speechSynthesis' in window && audioPlayBtn) {
+      let isPlaying = false;
+      let isPaused = false;
+      let currentRate = 1.0;
+      const speeds = [1.0, 1.25, 1.5];
+      const speedLabels = ['১.০x', '১.২৫x', '১.৫x'];
+      let currentSpeedIdx = 0;
+      let utterance = null;
+
+      function getCleanArticleText() {
+        const title = document.querySelector('h1')?.innerText || '';
+        const desc = document.querySelector('.prose')?.innerText || '';
+        return `${title}। ${desc}`;
+      }
+
+      function updateAudioUI(playing, paused) {
+        isPlaying = playing;
+        isPaused = paused;
+        if (playing && !paused) {
+          iconPlay?.classList.add('hidden');
+          iconPause?.classList.remove('hidden');
+          audioStopBtn?.classList.remove('hidden');
+          audioPlayingIndicator?.classList.remove('hidden');
+          audioPlayingIndicator?.classList.add('inline-flex');
+          if (audioStatusLabel) audioStatusLabel.textContent = 'সংবাদ পাঠ চলছে...';
+          if (audioSubLabel) audioSubLabel.textContent = 'থামাতে পজ বাটনে ক্লিক করুন';
+        } else if (paused) {
+          iconPlay?.classList.remove('hidden');
+          iconPause?.classList.add('hidden');
+          audioPlayingIndicator?.classList.add('hidden');
+          audioPlayingIndicator?.classList.remove('inline-flex');
+          if (audioStatusLabel) audioStatusLabel.textContent = 'সাময়িক স্থগিত (Paused)';
+          if (audioSubLabel) audioSubLabel.textContent = 'পুনরায় শুনতে প্লে বাটনে ক্লিক করুন';
+        } else {
+          iconPlay?.classList.remove('hidden');
+          iconPause?.classList.add('hidden');
+          audioStopBtn?.classList.add('hidden');
+          audioPlayingIndicator?.classList.add('hidden');
+          audioPlayingIndicator?.classList.remove('inline-flex');
+          if (audioStatusLabel) audioStatusLabel.textContent = 'অডিও শুনুন (AI ভয়েস রিডার)';
+          if (audioSubLabel) audioSubLabel.textContent = 'ক্লিক করে বাংলায় সম্পূর্ণ প্রতিবেদনটি শুনুন';
+        }
+      }
+
+      function stopAudio() {
+        window.speechSynthesis.cancel();
+        updateAudioUI(false, false);
+      }
+
+      audioPlayBtn.addEventListener('click', () => {
+        if (isPlaying && !isPaused) {
+          window.speechSynthesis.pause();
+          updateAudioUI(true, true);
+        } else if (isPaused) {
+          window.speechSynthesis.resume();
+          updateAudioUI(true, false);
+        } else {
+          stopAudio();
+          const textToRead = getCleanArticleText();
+          utterance = new SpeechSynthesisUtterance(textToRead);
+          utterance.rate = currentRate;
+
+          // Pick Bengali voice if installed
+          const voices = window.speechSynthesis.getVoices();
+          const bnVoice = voices.find(v => v.lang.startsWith('bn') || v.name.toLowerCase().includes('bangla') || v.name.toLowerCase().includes('bengali'));
+          if (bnVoice) {
+            utterance.voice = bnVoice;
+          }
+          utterance.lang = 'bn-IN';
+
+          utterance.onend = () => updateAudioUI(false, false);
+          utterance.onerror = () => updateAudioUI(false, false);
+
+          window.speechSynthesis.speak(utterance);
+          updateAudioUI(true, false);
+        }
+      });
+
+      audioStopBtn?.addEventListener('click', stopAudio);
+
+      audioSpeedBtn?.addEventListener('click', () => {
+        currentSpeedIdx = (currentSpeedIdx + 1) % speeds.length;
+        currentRate = speeds[currentSpeedIdx];
+        audioSpeedBtn.textContent = speedLabels[currentSpeedIdx];
+        if (isPlaying && !isPaused) {
+          stopAudio();
+          audioPlayBtn.click();
+        }
+      });
+
+      window.addEventListener('beforeunload', () => {
+        if (window.speechSynthesis) window.speechSynthesis.cancel();
+      });
+    } else if (document.getElementById('audio-news-player')) {
+      const player = document.getElementById('audio-news-player');
+      if (player) player.style.display = 'none';
     }
   </script>
 

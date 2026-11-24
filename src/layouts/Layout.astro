@@ -84,6 +84,18 @@ import '../styles/global.css';
   <meta name="robots" content="index, follow" />
   <meta name="theme-color" content="#1E3A2B" />
 
+  <!-- Dark Mode Script (Instant apply to avoid flash) -->
+  <script is:inline>
+    (function() {
+      const savedTheme = localStorage.getItem('theme');
+      if (savedTheme === 'dark' || (!savedTheme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+        document.documentElement.classList.add('dark');
+      } else {
+        document.documentElement.classList.remove('dark');
+      }
+    })();
+  </script>
+
   <!-- Font preconnect & PWA Manifest -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />

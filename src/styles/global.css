@@ -57,3 +57,52 @@
 .animate-ticker:hover {
   animation-play-state: paused;
 }
+
+/* Dark Mode Theme Enhancements */
+html.dark {
+  background-color: #0B130E;
+  color: #E2E8F0;
+}
+html.dark body {
+  background-color: #0B130E;
+  color: #E2E8F0;
+}
+html.dark header {
+  background-color: #121F17 !important;
+  border-color: #1E3A2B !important;
+}
+html.dark .bg-white {
+  background-color: #121F17 !important;
+  border-color: #1E3A2B !important;
+}
+html.dark .text-slate-900 {
+  color: #F8FAFC !important;
+}
+html.dark .text-slate-800 {
+  color: #E2E8F0 !important;
+}
+html.dark .text-slate-700 {
+  color: #CBD5E1 !important;
+}
+html.dark .border-slate-200 {
+  border-color: #1E3A2B !important;
+}
+html.dark .border-slate-100 {
+  border-color: #162C20 !important;
+}
+html.dark .bg-slate-50 {
+  background-color: #162C20 !important;
+  border-color: #1E3A2B !important;
+}
+html.dark .bg-slate-100 {
+  background-color: #162C20 !important;
+}
+html.dark .prose {
+  color: #CBD5E1 !important;
+}
+html.dark .prose h1, html.dark .prose h2, html.dark .prose h3, html.dark .prose h4 {
+  color: #F8FAFC !important;
+}
+html.dark .prose strong {
+  color: #F1F5F9 !important;
+}
