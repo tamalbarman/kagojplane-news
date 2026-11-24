@@ -12,11 +12,94 @@ const { trendingNews } = Astro.props;
 
 <aside class="space-y-8">
   
+  <!-- Hill Weather & Travel Advisory Widget -->
+  <div class="bg-gradient-to-br from-emerald-950 via-[#1E3A2B] to-slate-900 rounded-xl p-5 text-white shadow-sm border border-emerald-800/60">
+    <div class="flex items-center justify-between pb-3 mb-3 border-b border-emerald-800/80">
+      <h3 class="font-bold text-base flex items-center space-x-2 text-amber-300">
+        <svg class="w-5 h-5 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 00-9.78 2.096A4.001 4.001 0 003 15z"></path>
+        </svg>
+        <span>পাহাড়ে লাইভ আবহাওয়া ও রুট</span>
+      </h3>
+      <span class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-bold bg-amber-400 text-slate-950">
+        LIVE
+      </span>
+    </div>
+
+    <!-- Weather Matrix -->
+    <div class="grid grid-cols-2 gap-2 mb-4 text-xs" id="sidebar-weather-grid">
+      <div class="bg-black/25 rounded-lg p-2.5 border border-emerald-700/40">
+        <div class="flex items-center justify-between">
+          <span class="text-slate-300">দার্জিলিং</span>
+          <span id="sb-icon-0">⛅</span>
+        </div>
+        <div class="mt-1 flex items-baseline justify-between">
+          <span class="text-lg font-extrabold text-amber-300" id="sb-temp-0">১৫°C</span>
+          <span class="text-[10px] text-emerald-200">কুয়াশা</span>
+        </div>
+      </div>
+
+      <div class="bg-black/25 rounded-lg p-2.5 border border-emerald-700/40">
+        <div class="flex items-center justify-between">
+          <span class="text-slate-300">গ্যাংটক</span>
+          <span id="sb-icon-1">☀️</span>
+        </div>
+        <div class="mt-1 flex items-baseline justify-between">
+          <span class="text-lg font-extrabold text-amber-300" id="sb-temp-1">১৭°C</span>
+          <span class="text-[10px] text-emerald-200">পরিষ্কার</span>
+        </div>
+      </div>
+
+      <div class="bg-black/25 rounded-lg p-2.5 border border-emerald-700/40">
+        <div class="flex items-center justify-between">
+          <span class="text-slate-300">কালিম্পং</span>
+          <span id="sb-icon-2">⛅</span>
+        </div>
+        <div class="mt-1 flex items-baseline justify-between">
+          <span class="text-lg font-extrabold text-amber-300" id="sb-temp-2">২০°C</span>
+          <span class="text-[10px] text-emerald-200">স্বাভাবিক</span>
+        </div>
+      </div>
+
+      <div class="bg-black/25 rounded-lg p-2.5 border border-emerald-700/40">
+        <div class="flex items-center justify-between">
+          <span class="text-slate-300">শিলিগুড়ি</span>
+          <span id="sb-icon-3">☀️</span>
+        </div>
+        <div class="mt-1 flex items-baseline justify-between">
+          <span class="text-lg font-extrabold text-amber-300" id="sb-temp-3">২৪°C</span>
+          <span class="text-[10px] text-emerald-200">রোদ</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Hill Road Status Alert -->
+    <div class="bg-emerald-900/60 rounded-lg p-3 border border-emerald-700/60 text-xs space-y-1.5">
+      <div class="flex items-center space-x-1.5 text-amber-300 font-semibold">
+        <svg class="w-3.5 h-3.5 text-amber-400 shrink-0" fill="currentColor" viewBox="0 0 20 20">
+          <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/>
+        </svg>
+        <span>পাহাড়ি সড়ক আপডেট (Road Advisory):</span>
+      </div>
+      <p class="text-[11px] text-slate-200 leading-snug">
+        • <strong>NH-10 (তিস্তাবাজার):</strong> যানবাহন চলাচল স্বাভাবিক।<br/>
+        • <strong>দার্জিলিং (রোহিণী/পাঙ্খাবাড়ি):</strong> কোনো ধস নেই, পথ সচল।
+      </p>
+    </div>
+
+    <a 
+      href="/category/travel/" 
+      class="mt-3 block text-center text-xs font-bold text-amber-300 hover:text-white transition bg-white/10 hover:bg-white/20 py-2 rounded-lg"
+    >
+      সম্পূর্ণ ভ্রমণ ও আবহাওয়া সতর্কতা পড়ুন &rarr;
+    </a>
+  </div>
+
   <!-- Market Watch Widget -->
   <div class="bg-white rounded-xl p-5 border border-slate-200 shadow-xs">
     <div class="flex items-center justify-between pb-3 mb-3 border-b border-slate-100">
       <h3 class="font-bold text-slate-900 text-base flex items-center space-x-2">
-        <svg class="w-4 h-4 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <svg class="w-4 h-4 text-emerald-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path>
         </svg>
         <span>বাজারের এক নজর (Market Watch)</span>
@@ -132,3 +215,48 @@ const { trendingNews } = Astro.props;
   </div>
 
 </aside>
+
+<script is:inline>
+  (function initSidebarWeather() {
+    const CITIES = [
+      { id: 0, lat: 27.0410, lon: 88.2663 }, // Darjeeling
+      { id: 1, lat: 27.3389, lon: 88.6065 }, // Gangtok
+      { id: 2, lat: 27.0594, lon: 88.4695 }, // Kalimpong
+      { id: 3, lat: 26.7271, lon: 88.3953 }  // Siliguri
+    ];
+
+    function getWeatherIcon(code) {
+      if (code === 0) return '☀️';
+      if ([1, 2].includes(code)) return '⛅';
+      if (code === 3) return '☁️';
+      if ([45, 48].includes(code)) return '🌫️';
+      if ([51, 53, 55, 61, 63, 65, 80, 81, 82].includes(code)) return '🌧️';
+      if ([71, 73, 75, 77, 85, 86].includes(code)) return '🌨️';
+      if ([95, 96, 99].includes(code)) return '⛈️';
+      return '⛅';
+    }
+
+    function toBengaliNum(num) {
+      return Math.round(num).toString().replace(/\d/g, d => '০১২৩৪৫৬৭৮৯'[d]);
+    }
+
+    const lats = CITIES.map(c => c.lat).join(',');
+    const lons = CITIES.map(c => c.lon).join(',');
+    const url = `https://api.open-meteo.com/v1/forecast?latitude=${lats}&longitude=${lons}&current=temperature_2m,weather_code&timezone=Asia%2FKolkata`;
+
+    fetch(url)
+      .then(res => res.json())
+      .then(data => {
+        const list = Array.isArray(data) ? data : [data];
+        list.forEach((item, i) => {
+          if (item && item.current) {
+            const tempEl = document.getElementById(`sb-temp-${i}`);
+            const iconEl = document.getElementById(`sb-icon-${i}`);
+            if (tempEl) tempEl.textContent = `${toBengaliNum(item.current.temperature_2m)}°C`;
+            if (iconEl) iconEl.textContent = getWeatherIcon(item.current.weather_code);
+          }
+        });
+      })
+      .catch(() => {});
+  })();
+</script>

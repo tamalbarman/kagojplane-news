@@ -49,16 +49,26 @@ const formattedDate = `${dayName}, ${dateNum} ${monthName}, ${yearNum}`;
       </div>
     </div>
 
-    <!-- Date & Live Indicator -->
-    <div class="hidden md:flex items-center space-x-4 shrink-0 text-slate-400">
-      <span class="flex items-center space-x-1">
+    <!-- Date & Live Weather Indicator -->
+    <div class="hidden md:flex items-center space-x-3 shrink-0 text-slate-400">
+      <span class="flex items-center space-x-1 text-xs">
         <svg class="w-3.5 h-3.5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
         </svg>
         <span>{formattedDate}</span>
       </span>
+
+      <!-- Live Weather Pill (Auto-rotates Darjeeling, Gangtok, Kalimpong, Siliguri, Kolkata) -->
       <span class="text-slate-600">|</span>
-      <a href="/admin/" class="text-amber-400 hover:text-amber-300 font-medium transition-colors flex items-center space-x-1">
+      <div id="topbar-weather" class="flex items-center space-x-1.5 bg-emerald-950/80 border border-emerald-800/80 text-amber-300 text-xs px-2.5 py-0.5 rounded-full cursor-pointer hover:bg-emerald-900 transition" title="পাহাড়ে লাইভ আবহাওয়া আপডেট (ক্লিক করে শহর বদলান)">
+        <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping"></span>
+        <span id="tb-weather-icon">⛅</span>
+        <span id="tb-weather-city" class="text-slate-300">দার্জিলিং:</span>
+        <span id="tb-weather-temp" class="font-bold text-amber-400">১৫°C</span>
+      </div>
+
+      <span class="text-slate-600">|</span>
+      <a href="/admin/" class="text-amber-400 hover:text-amber-300 font-medium transition-colors flex items-center space-x-1 text-xs">
         <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
         </svg>
@@ -68,3 +78,75 @@ const formattedDate = `${dayName}, ${dateNum} ${monthName}, ${yearNum}`;
 
   </div>
 </div>
+
+<script is:inline>
+  (function initLiveWeather() {
+    const CITIES = [
+      { name: 'দার্জিলিং', lat: 27.0410, lon: 88.2663, defaultTemp: '১৫°C', defaultIcon: '⛅' },
+      { name: 'গ্যাংটক', lat: 27.3389, lon: 88.6065, defaultTemp: '১৭°C', defaultIcon: '☀️' },
+      { name: 'কালিম্পং', lat: 27.0594, lon: 88.4695, defaultTemp: '২০°C', defaultIcon: '⛅' },
+      { name: 'শিলিগুড়ি', lat: 26.7271, lon: 88.3953, defaultTemp: '২৪°C', defaultIcon: '☀️' },
+      { name: 'কলকাতা', lat: 22.5726, lon: 88.3639, defaultTemp: '২৭°C', defaultIcon: '☀️' }
+    ];
+
+    function getWeatherIcon(code) {
+      if (code === 0) return '☀️';
+      if ([1, 2].includes(code)) return '⛅';
+      if (code === 3) return '☁️';
+      if ([45, 48].includes(code)) return '🌫️';
+      if ([51, 53, 55, 61, 63, 65, 80, 81, 82].includes(code)) return '🌧️';
+      if ([71, 73, 75, 77, 85, 86].includes(code)) return '🌨️';
+      if ([95, 96, 99].includes(code)) return '⛈️';
+      return '⛅';
+    }
+
+    function toBengaliNum(num) {
+      return Math.round(num).toString().replace(/\d/g, d => '০১২৩৪৫৬৭৮৯'[d]);
+    }
+
+    let currentIndex = 0;
+    const cityEl = document.getElementById('tb-weather-city');
+    const tempEl = document.getElementById('tb-weather-temp');
+    const iconEl = document.getElementById('tb-weather-icon');
+    const pill = document.getElementById('topbar-weather');
+
+    function updateDisplay(index) {
+      if (!cityEl || !tempEl || !iconEl) return;
+      const c = CITIES[index];
+      cityEl.textContent = `${c.name}:`;
+      tempEl.textContent = c.temp || c.defaultTemp;
+      iconEl.textContent = c.icon || c.defaultIcon;
+    }
+
+    setInterval(() => {
+      currentIndex = (currentIndex + 1) % CITIES.length;
+      updateDisplay(currentIndex);
+    }, 4000);
+
+    if (pill) {
+      pill.addEventListener('click', () => {
+        currentIndex = (currentIndex + 1) % CITIES.length;
+        updateDisplay(currentIndex);
+      });
+    }
+
+    // Live API call in browser (Open-Meteo free endpoint)
+    const lats = CITIES.map(c => c.lat).join(',');
+    const lons = CITIES.map(c => c.lon).join(',');
+    const url = `https://api.open-meteo.com/v1/forecast?latitude=${lats}&longitude=${lons}&current=temperature_2m,weather_code&timezone=Asia%2FKolkata`;
+
+    fetch(url)
+      .then(res => res.json())
+      .then(data => {
+        const list = Array.isArray(data) ? data : [data];
+        list.forEach((item, i) => {
+          if (CITIES[i] && item && item.current) {
+            CITIES[i].temp = `${toBengaliNum(item.current.temperature_2m)}°C`;
+            CITIES[i].icon = getWeatherIcon(item.current.weather_code);
+          }
+        });
+        updateDisplay(currentIndex);
+      })
+      .catch(() => {});
+  })();
+</script>
