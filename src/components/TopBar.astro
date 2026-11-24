@@ -58,13 +58,49 @@ const formattedDate = `${dayName}, ${dateNum} ${monthName}, ${yearNum}`;
         <span>{formattedDate}</span>
       </span>
 
-      <!-- Live Weather Pill (Auto-rotates Darjeeling, Gangtok, Kalimpong, Siliguri, Kolkata) -->
+      <!-- Live Weather Pill with Interactive Dropdown -->
       <span class="text-slate-600">|</span>
-      <div id="topbar-weather" class="flex items-center space-x-1.5 bg-emerald-950/80 border border-emerald-800/80 text-amber-300 text-xs px-2.5 py-0.5 rounded-full cursor-pointer hover:bg-emerald-900 transition" title="পাহাড়ে লাইভ আবহাওয়া আপডেট (ক্লিক করে শহর বদলান)">
-        <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping"></span>
-        <span id="tb-weather-icon">⛅</span>
-        <span id="tb-weather-city" class="text-slate-300">দার্জিলিং:</span>
-        <span id="tb-weather-temp" class="font-bold text-amber-400">১৫°C</span>
+      <div class="relative">
+        <button 
+          type="button"
+          id="topbar-weather" 
+          class="flex items-center space-x-1.5 bg-emerald-950/80 border border-emerald-800/80 text-amber-300 text-xs px-2.5 py-0.5 rounded-full cursor-pointer hover:bg-emerald-900 transition focus:outline-none" 
+          title="পাহাড়ে লাইভ আবহাওয়া (ক্লিক করে সব শহরের তালিকা দেখুন)"
+        >
+          <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping"></span>
+          <span id="tb-weather-icon">⛅</span>
+          <span id="tb-weather-city" class="text-slate-300">দার্জিলিং:</span>
+          <span id="tb-weather-temp" class="font-bold text-amber-400">১৫°C</span>
+          <svg class="w-2.5 h-2.5 text-amber-400/80 ml-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+          </svg>
+        </button>
+
+        <!-- Dropdown Card (Shows all cities simultaneously) -->
+        <div 
+          id="weather-dropdown" 
+          class="hidden absolute right-0 mt-2 w-64 bg-slate-900/95 backdrop-blur-md border border-emerald-800/80 rounded-xl shadow-2xl p-3 z-50 text-xs text-white"
+        >
+          <div class="flex items-center justify-between pb-2 mb-2 border-b border-emerald-800/60">
+            <span class="font-bold text-amber-300 flex items-center space-x-1">
+              <span>🌦️</span>
+              <span>পাহাড়ে লাইভ আবহাওয়া</span>
+            </span>
+            <span class="text-[10px] text-emerald-400 bg-emerald-950 px-1.5 py-0.5 rounded border border-emerald-700/60 font-semibold">
+              রিয়েলটাইম
+            </span>
+          </div>
+
+          <div class="space-y-1.5" id="weather-dropdown-list">
+            <!-- Dynamically populated -->
+          </div>
+
+          <div class="mt-2.5 pt-2 border-t border-slate-800 text-[11px] text-center">
+            <a href="/category/travel/" class="text-amber-400 hover:text-amber-300 font-semibold transition block">
+              রোড ও ভ্রমণ সতর্কতা পড়ুন &rarr;
+            </a>
+          </div>
+        </div>
       </div>
 
       <span class="text-slate-600">|</span>
@@ -82,11 +118,11 @@ const formattedDate = `${dayName}, ${dateNum} ${monthName}, ${yearNum}`;
 <script is:inline>
   (function initLiveWeather() {
     const CITIES = [
-      { name: 'দার্জিলিং', lat: 27.0410, lon: 88.2663, defaultTemp: '১৫°C', defaultIcon: '⛅' },
-      { name: 'গ্যাংটক', lat: 27.3389, lon: 88.6065, defaultTemp: '১৭°C', defaultIcon: '☀️' },
-      { name: 'কালিম্পং', lat: 27.0594, lon: 88.4695, defaultTemp: '২০°C', defaultIcon: '⛅' },
-      { name: 'শিলিগুড়ি', lat: 26.7271, lon: 88.3953, defaultTemp: '২৪°C', defaultIcon: '☀️' },
-      { name: 'কলকাতা', lat: 22.5726, lon: 88.3639, defaultTemp: '২৭°C', defaultIcon: '☀️' }
+      { name: 'দার্জিলিং', desc: 'কুয়াশাচ্ছন্ন পাহাড়ি শহর', lat: 27.0410, lon: 88.2663, defaultTemp: '১৫°C', defaultIcon: '⛅' },
+      { name: 'গ্যাংটক', desc: 'স্বাভাবিক ঠাণ্ডা ও মনোরম', lat: 27.3389, lon: 88.6065, defaultTemp: '১৭°C', defaultIcon: '☀️' },
+      { name: 'কালিম্পং', desc: 'স্বাভাবিক পাহাড়ি আবহাওয়া', lat: 27.0594, lon: 88.4695, defaultTemp: '২০°C', defaultIcon: '⛅' },
+      { name: 'শিলিগুড়ি', desc: 'তরাই ও ডুয়ার্স প্রবেশদ্বার', lat: 26.7271, lon: 88.3953, defaultTemp: '২৪°C', defaultIcon: '☀️' },
+      { name: 'কলকাতা', desc: 'দক্ষিণবঙ্গের রাজধানী', lat: 22.5726, lon: 88.3639, defaultTemp: '২৭°C', defaultIcon: '☀️' }
     ];
 
     function getWeatherIcon(code) {
@@ -105,10 +141,14 @@ const formattedDate = `${dayName}, ${dateNum} ${monthName}, ${yearNum}`;
     }
 
     let currentIndex = 0;
+    let isDropdownOpen = false;
+    let isUserLocked = false;
     const cityEl = document.getElementById('tb-weather-city');
     const tempEl = document.getElementById('tb-weather-temp');
     const iconEl = document.getElementById('tb-weather-icon');
     const pill = document.getElementById('topbar-weather');
+    const dropdown = document.getElementById('weather-dropdown');
+    const dropdownList = document.getElementById('weather-dropdown-list');
 
     function updateDisplay(index) {
       if (!cityEl || !tempEl || !iconEl) return;
@@ -118,17 +158,65 @@ const formattedDate = `${dayName}, ${dateNum} ${monthName}, ${yearNum}`;
       iconEl.textContent = c.icon || c.defaultIcon;
     }
 
+    function renderDropdown() {
+      if (!dropdownList) return;
+      dropdownList.innerHTML = CITIES.map((c, i) => `
+        <button type="button" data-index="${i}" class="city-select-btn w-full flex items-center justify-between p-1.5 rounded-lg hover:bg-emerald-950/80 transition text-left group ${i === currentIndex ? 'bg-emerald-950/90 ring-1 ring-amber-400/50' : ''}">
+          <div class="flex items-center space-x-2">
+            <span class="text-base">${c.icon || c.defaultIcon}</span>
+            <div>
+              <span class="font-bold text-slate-100 group-hover:text-amber-300 transition">${c.name}</span>
+              <p class="text-[9px] text-slate-400">${c.desc}</p>
+            </div>
+          </div>
+          <span class="font-extrabold text-amber-400 text-sm">${c.temp || c.defaultTemp}</span>
+        </button>
+      `).join('');
+
+      dropdownList.querySelectorAll('.city-select-btn').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          const idx = parseInt(btn.getAttribute('data-index') || '0', 10);
+          currentIndex = idx;
+          isUserLocked = true;
+          updateDisplay(currentIndex);
+          toggleDropdown(false);
+        });
+      });
+    }
+
+    function toggleDropdown(show) {
+      if (!dropdown) return;
+      isDropdownOpen = typeof show === 'boolean' ? show : !isDropdownOpen;
+      if (isDropdownOpen) {
+        renderDropdown();
+        dropdown.classList.remove('hidden');
+      } else {
+        dropdown.classList.add('hidden');
+      }
+    }
+
+    // Auto rotate every 4 seconds when dropdown is not open and not user locked
     setInterval(() => {
-      currentIndex = (currentIndex + 1) % CITIES.length;
-      updateDisplay(currentIndex);
+      if (!isDropdownOpen && !isUserLocked) {
+        currentIndex = (currentIndex + 1) % CITIES.length;
+        updateDisplay(currentIndex);
+      }
     }, 4000);
 
     if (pill) {
-      pill.addEventListener('click', () => {
-        currentIndex = (currentIndex + 1) % CITIES.length;
-        updateDisplay(currentIndex);
+      pill.addEventListener('click', (e) => {
+        e.stopPropagation();
+        toggleDropdown();
       });
     }
+
+    // Close dropdown on outside click
+    document.addEventListener('click', (e) => {
+      if (dropdown && !dropdown.contains(e.target) && !pill.contains(e.target)) {
+        toggleDropdown(false);
+      }
+    });
 
     // Live API call in browser (Open-Meteo free endpoint)
     const lats = CITIES.map(c => c.lat).join(',');
@@ -146,6 +234,7 @@ const formattedDate = `${dayName}, ${dateNum} ${monthName}, ${yearNum}`;
           }
         });
         updateDisplay(currentIndex);
+        if (isDropdownOpen) renderDropdown();
       })
       .catch(() => {});
   })();
