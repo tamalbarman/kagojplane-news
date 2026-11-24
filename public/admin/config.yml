@@ -26,18 +26,19 @@ collections:
         name: "category"
         widget: "select"
         options:
+          - { label: "প্রযুক্তি ও এআই (Tech & IT World)", value: "tech-it" }
           - { label: "শেয়ার বাজার (Stock Market)", value: "stock-market" }
-          - { label: "স্টকমার্কেট খুঁটিনাটি (Stock Market Tips)", value: "stock-market-info" }
-          - { label: "মিউচুয়াল ফান্ড (Mutual Funds)", value: "mutual-funds" }
-          - { label: "ব্যবসা (Business)", value: "business" }
-          - { label: "দেশ (National)", value: "country" }
-          - { label: "সরকারি খবর (Government Updates)", value: "government-updates" }
-          - { label: "বিদেশ (International)", value: "foreign-country" }
-          - { label: "ব্যাঙ্ক (Banking)", value: "bank" }
-          - { label: "চাকরি (Employment)", value: "employment" }
-          - { label: "বাজারদর (Market Price)", value: "market-price" }
+          - { label: "ব্যবসা ও বাণিজ্য (Business)", value: "business" }
           - { label: "ভ্রমণ ও আবহাওয়া (Travel & Alerts)", value: "travel" }
           - { label: "খাবার ও রেসিপি (Food & Recipes)", value: "food-recipe" }
+          - { label: "সরকারি খবর (Government Updates)", value: "government-updates" }
+          - { label: "বিদেশ (International)", value: "foreign-country" }
+          - { label: "চাকরি ও কর্মসংস্থান (Employment)", value: "employment" }
+          - { label: "ব্যাঙ্ক (Banking)", value: "bank" }
+          - { label: "বাজারদর (Market Price)", value: "market-price" }
+          - { label: "দেশ (National)", value: "country" }
+          - { label: "স্টকমার্কেট খুঁটিনাটি (Stock Market Tips)", value: "stock-market-info" }
+          - { label: "মিউচুয়াল ফান্ড (Mutual Funds)", value: "mutual-funds" }
       - { label: "প্রধান ছবি (Featured Image)", name: "image", widget: "image", default: "https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=1000&auto=format&fit=crop&q=80" }
       - { label: "ছবির ক্যাপশন (Image Caption)", name: "imageCaption", widget: "string", required: false }
       - { label: "প্রধান ফিচার্ড খবর (Featured Hero)", name: "featured", widget: "boolean", default: false, required: false }

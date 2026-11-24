@@ -23,6 +23,13 @@ if (!fs.existsSync(NEWS_DIR)) {
 // Feeds configuration
 const FEEDS = [
   {
+    category: 'tech-it',
+    categoryName: 'প্রযুক্তি ও এআই',
+    url: 'https://news.google.com/rss/search?q=Nvidia+AI+Technology+chips+India&hl=en-IN&gl=IN&ceid=IN:en',
+    defaultImage: 'https://images.unsplash.com/photo-1591488320449-011701bb6704?w=1200&auto=format&fit=crop&q=80',
+    tags: ['প্রযুক্তি', 'Nvidia', 'AI', 'সেমিকন্ডাক্টর', 'Tech']
+  },
+  {
     category: 'business',
     categoryName: 'ব্যবসা',
     url: 'https://news.google.com/rss/search?q=business+economy+India&hl=en-IN&gl=IN&ceid=IN:en',

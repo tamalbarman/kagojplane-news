@@ -11,6 +11,7 @@ const allNews = await getCollection('news');
 const sortedNews = allNews.sort((a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime());
 
 // Categories for homepage sections
+const techNews = sortedNews.filter(n => n.data.category === 'tech-it');
 const stockNews = sortedNews.filter(n => n.data.category === 'stock-market');
 const travelNews = sortedNews.filter(n => n.data.category === 'travel');
 const foodNews = sortedNews.filter(n => n.data.category === 'food-recipe');
@@ -97,21 +98,28 @@ const searchIndex = sortedNews.map(n => ({
     <!-- Main Articles Stream (8 cols) -->
     <div class="lg:col-span-8 space-y-12">
       
-      <!-- Category 1: Travel & Alerts -->
+      <!-- Category 1: Tech & AI World -->
+      <CategorySection 
+        categorySlug="tech-it" 
+        articles={techNews} 
+        limit={4} 
+      />
+
+      <!-- Category 2: Travel & Alerts -->
       <CategorySection 
         categorySlug="travel" 
         articles={travelNews} 
         limit={4} 
       />
 
-      <!-- Category 2: Food & Recipes -->
+      <!-- Category 3: Food & Recipes -->
       <CategorySection 
         categorySlug="food-recipe" 
         articles={foodNews} 
         limit={4} 
       />
 
-      <!-- Category 3: Stock Market -->
+      <!-- Category 4: Stock Market -->
       <CategorySection 
         categorySlug="stock-market" 
         articles={stockNews} 

@@ -1,5 +1,5 @@
 ---
-import { CATEGORY_LIST } from '../utils/categories';
+import { MAIN_NAV_CATEGORIES } from '../utils/categories';
 
 const currentPath = Astro.url.pathname;
 ---
@@ -24,18 +24,20 @@ const currentPath = Astro.url.pathname;
       </a>
 
       <!-- Category Links -->
-      {CATEGORY_LIST.map((cat) => {
+      {MAIN_NAV_CATEGORIES.map((cat) => {
         const isActive = currentPath.includes(`/category/${cat.slug}`);
+        const isTech = cat.slug === 'tech-it';
         return (
           <a
             href={`/category/${cat.slug}/`}
-            class={`px-3 py-2 rounded font-medium text-sm whitespace-nowrap transition-colors ${
+            class={`px-3 py-2 rounded font-medium text-sm whitespace-nowrap transition-colors flex items-center space-x-1.5 ${
               isActive 
                 ? 'bg-emerald-900 text-amber-300 shadow-inner font-bold' 
                 : 'hover:bg-emerald-900/80 text-emerald-100 hover:text-white'
             }`}
           >
-            {cat.name}
+            {isTech && <span class="text-amber-400 text-xs">⚡</span>}
+            <span>{cat.name}</span>
           </a>
         );
       })}
