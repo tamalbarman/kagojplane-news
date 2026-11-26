@@ -1,6 +1,7 @@
 ---
 import type { CollectionEntry } from 'astro:content';
 import NewsCard from './NewsCard.astro';
+import { getCategoryMeta } from '../utils/categories';
 
 export interface Props {
   newsList: CollectionEntry<'news'>[];
@@ -8,13 +9,26 @@ export interface Props {
 
 const { newsList } = Astro.props;
 
-// Top story is a recent featured story (within 24h) or the latest article
-const oneDayAgo = Date.now() - 24 * 60 * 60 * 1000;
-const recentFeatured = newsList.find(
-  n => n.data.featured && n.data.pubDate.getTime() >= oneDayAgo
-);
-const heroStory = recentFeatured || newsList[0];
-const sideStories = newsList.filter(n => n.id !== heroStory?.id).slice(0, 4);
+// Select up to 5 important stories from the current/latest day for the slideshow
+const oneDayAgo = Date.now() - 36 * 60 * 60 * 1000;
+const recentStories = newsList.filter(n => n.data.pubDate.getTime() >= oneDayAgo);
+const pool = recentStories.length >= 3 ? recentStories : newsList;
+
+// Prioritize featured / breaking / trending among recent stories, preserving recency
+const prioritized = [
+  ...pool.filter(n => n.data.featured || n.data.breaking || n.data.trending),
+  ...pool.filter(n => !n.data.featured && !n.data.breaking && !n.data.trending),
+];
+
+const slideStories = prioritized.slice(0, 5);
+const slideIds = new Set(slideStories.map(s => s.id));
+const sideStories = [
+  ...newsList.filter(n => !slideIds.has(n.id)),
+  ...newsList.filter(n => slideIds.has(n.id) && n.id !== slideStories[0]?.id),
+].slice(0, 4);
+
+const bengaliDigits = (num: number | string) =>
+  num.toString().replace(/\d/g, d => '০১২৩৪৫৬৭৮৯'[parseInt(d)]);
 ---
 
 <section class="mb-10">
@@ -25,14 +39,112 @@ const sideStories = newsList.filter(n => n.id !== heroStory?.id).slice(0, 4);
         বিশেষ গুরুত্বপূর্ণ খবর
       </h2>
     </div>
-    <span class="text-xs text-slate-400 font-medium">আজকের বাছাই করা শিরোনাম</span>
+    <span class="text-xs text-slate-400 font-medium">আজকের বাছাই করা শিরোনাম ও স্লাইডশো</span>
   </div>
 
   <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
-    <!-- Big Hero Feature (7 columns on large screen) -->
-    {heroStory && (
-      <div class="lg:col-span-7">
-        <NewsCard news={heroStory} variant="featured" />
+    <!-- Big Hero Slideshow (7 columns on large screen) -->
+    {slideStories.length > 0 && (
+      <div
+        id="hero-slideshow"
+        class="lg:col-span-7 relative rounded-2xl overflow-hidden bg-slate-900 shadow-md border border-slate-200 dark:border-emerald-900/60 group min-h-[360px] sm:min-h-[430px]"
+      >
+        {slideStories.map((story, idx) => {
+          const catMeta = getCategoryMeta(story.data.category);
+          const dateStr = story.data.pubDate.toLocaleDateString('bn-IN', {
+            month: 'long',
+            day: 'numeric',
+            year: 'numeric',
+          });
+          return (
+            <article
+              data-slide={idx}
+              class={`hero-slide absolute inset-0 transition-opacity duration-500 ease-in-out ${
+                idx === 0 ? 'opacity-100 z-10' : 'opacity-0 z-0 pointer-events-none'
+              }`}
+            >
+              <a href={`/news/${story.id}/`} class="block w-full h-full relative">
+                <img
+                  src={story.data.image}
+                  alt={story.data.title}
+                  loading={idx === 0 ? 'eager' : 'lazy'}
+                  class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                />
+                <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/60 to-transparent"></div>
+
+                <!-- Top Badges -->
+                <div class="absolute top-4 left-4 right-4 flex items-center justify-between gap-2">
+                  <div class="flex items-center space-x-2">
+                    <span class={`text-xs font-bold text-white px-2.5 py-1 rounded shadow-xs ${catMeta.bgColor}`}>
+                      {catMeta.name}
+                    </span>
+                    {story.data.breaking && (
+                      <span class="text-[11px] font-bold bg-amber-500 text-slate-950 px-2 py-0.5 rounded shadow-xs">
+                        ব্রেকিং
+                      </span>
+                    )}
+                  </div>
+                  <span class="text-[11px] font-bold bg-black/50 backdrop-blur-xs text-amber-300 px-2.5 py-1 rounded-full border border-white/15">
+                    {bengaliDigits(idx + 1)} / {bengaliDigits(slideStories.length)}
+                  </span>
+                </div>
+
+                <!-- Bottom Content -->
+                <div class="absolute bottom-10 sm:bottom-11 left-0 right-0 p-5 sm:p-6 text-white">
+                  <h3 class="text-xl sm:text-2xl lg:text-[26px] font-bold leading-snug line-clamp-2 group-hover:text-amber-300 transition-colors">
+                    {story.data.title}
+                  </h3>
+                  {story.data.description && (
+                    <p class="hidden sm:line-clamp-2 text-sm text-slate-200 mt-2 leading-relaxed">
+                      {story.data.description}
+                    </p>
+                  )}
+                  <div class="flex items-center space-x-2 text-xs text-slate-300 mt-3">
+                    <span class="font-semibold text-amber-300">{story.data.author}</span>
+                    <span>•</span>
+                    <span>{dateStr}</span>
+                  </div>
+                </div>
+              </a>
+            </article>
+          );
+        })}
+
+        <!-- Prev / Next Controls -->
+        {slideStories.length > 1 && (
+          <>
+            <button
+              id="hero-prev"
+              type="button"
+              aria-label="আগের খবর"
+              class="absolute left-3 top-1/2 -translate-y-1/2 z-20 w-9 h-9 rounded-full bg-black/50 hover:bg-emerald-800 text-white flex items-center justify-center backdrop-blur-xs border border-white/20 transition cursor-pointer"
+            >
+              &#8249;
+            </button>
+            <button
+              id="hero-next"
+              type="button"
+              aria-label="পরের খবর"
+              class="absolute right-3 top-1/2 -translate-y-1/2 z-20 w-9 h-9 rounded-full bg-black/50 hover:bg-emerald-800 text-white flex items-center justify-center backdrop-blur-xs border border-white/20 transition cursor-pointer"
+            >
+              &#8250;
+            </button>
+
+            <!-- Dot Indicators -->
+            <div class="absolute bottom-3.5 left-0 right-0 z-20 flex items-center justify-center space-x-2">
+              {slideStories.map((_, idx) => (
+                <button
+                  type="button"
+                  data-dot={idx}
+                  aria-label={`স্লাইড ${idx + 1}`}
+                  class={`hero-dot h-2 rounded-full transition-all cursor-pointer ${
+                    idx === 0 ? 'w-7 bg-amber-400' : 'w-2 bg-white/50 hover:bg-white/80'
+                  }`}
+                />
+              ))}
+            </div>
+          </>
+        )}
       </div>
     )}
 
@@ -44,3 +156,79 @@ const sideStories = newsList.filter(n => n.id !== heroStory?.id).slice(0, 4);
     </div>
   </div>
 </section>
+
+<script is:inline>
+  (() => {
+    const container = document.getElementById('hero-slideshow');
+    if (!container) return;
+
+    const slides = Array.from(container.querySelectorAll('.hero-slide'));
+    const dots = Array.from(container.querySelectorAll('.hero-dot'));
+    const prevBtn = document.getElementById('hero-prev');
+    const nextBtn = document.getElementById('hero-next');
+
+    if (slides.length <= 1) return;
+
+    let current = 0;
+    let timer = null;
+
+    function goTo(index) {
+      current = (index + slides.length) % slides.length;
+      slides.forEach((slide, i) => {
+        if (i === current) {
+          slide.classList.remove('opacity-0', 'z-0', 'pointer-events-none');
+          slide.classList.add('opacity-100', 'z-10');
+        } else {
+          slide.classList.remove('opacity-100', 'z-10');
+          slide.classList.add('opacity-0', 'z-0', 'pointer-events-none');
+        }
+      });
+      dots.forEach((dot, i) => {
+        if (i === current) {
+          dot.classList.remove('w-2', 'bg-white/50');
+          dot.classList.add('w-7', 'bg-amber-400');
+        } else {
+          dot.classList.remove('w-7', 'bg-amber-400');
+          dot.classList.add('w-2', 'bg-white/50');
+        }
+      });
+    }
+
+    function startAuto() {
+      stopAuto();
+      timer = window.setInterval(() => goTo(current + 1), 5000);
+    }
+
+    function stopAuto() {
+      if (timer !== null) {
+        clearInterval(timer);
+        timer = null;
+      }
+    }
+
+    prevBtn?.addEventListener('click', (e) => {
+      e.preventDefault();
+      goTo(current - 1);
+      startAuto();
+    });
+
+    nextBtn?.addEventListener('click', (e) => {
+      e.preventDefault();
+      goTo(current + 1);
+      startAuto();
+    });
+
+    dots.forEach((dot, i) => {
+      dot.addEventListener('click', (e) => {
+        e.preventDefault();
+        goTo(i);
+        startAuto();
+      });
+    });
+
+    container.addEventListener('mouseenter', stopAuto);
+    container.addEventListener('mouseleave', startAuto);
+
+    startAuto();
+  })();
+</script>
