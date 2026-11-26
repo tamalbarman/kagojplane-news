@@ -1,0 +1,134 @@
+---
+import { getCollection } from 'astro:content';
+import Layout from '../layouts/Layout.astro';
+import { getCategoryMeta } from '../utils/categories';
+
+const allNews = await getCollection('news');
+const latestNews = allNews
+  .sort((a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime())
+  .slice(0, 8);
+
+const rssUrl = 'https://thekagojplane.netlify.app/rss.xml';
+---
+
+<Layout
+  title="সাবস্ক্রাইব করুন - দ্য কাগজপ্লেন"
+  description="দ্য কাগজপ্লেন-এর ব্রেকিং নিউজ, স্টক মার্কেট, পাহাড়ি ভ্রমণ আপডেট এবং দৈনন্দিন সংবাদ সরাসরি পেতে সাবস্ক্রাইব করুন।"
+>
+  <div class="max-w-4xl mx-auto space-y-8">
+    <!-- Hero Card -->
+    <section class="bg-gradient-to-r from-emerald-950 via-[#1E3A2B] to-slate-900 border border-emerald-800/80 rounded-2xl p-6 sm:p-8 text-white shadow-md">
+      <span class="text-xs font-bold uppercase tracking-wider bg-white/15 px-2.5 py-1 rounded text-amber-300">
+        সরাসরি নিউজ আপডেট
+      </span>
+      <h1 class="text-2xl sm:text-3xl font-bold mt-3 text-white">
+        দ্য কাগজপ্লেন-এ সাবস্ক্রাইব করুন
+      </h1>
+      <p class="text-sm text-emerald-100 mt-2 leading-relaxed max-w-2xl">
+        স্টক মার্কেট, টেক ও এআই, পাহাড়ি আবহাওয়া সতর্কতা এবং দৈনন্দিন গুরুত্বপূর্ণ খবর মিস করবেন না। আপনার পছন্দের রিডারে RSS লিংক যোগ করুন অথবা নিচে থেকেই সরাসরি তাজা খবর পড়ুন।
+      </p>
+
+      <!-- Copy RSS URL Box -->
+      <div class="mt-6 bg-black/30 border border-emerald-700/60 rounded-xl p-4 space-y-3">
+        <label for="rss-url-input" class="block text-xs font-bold text-amber-300">
+          আপনার RSS Feed লিংক (Feedly, Inoreader বা যেকোনো RSS অ্যাপে পেস্ট করুন):
+        </label>
+        <div class="flex flex-col sm:flex-row gap-2.5">
+          <input
+            id="rss-url-input"
+            type="text"
+            readonly
+            value={rssUrl}
+            class="flex-1 bg-slate-950/80 text-slate-100 text-xs font-mono px-3.5 py-2.5 rounded-lg border border-emerald-800 outline-none"
+          />
+          <button
+            id="copy-rss-btn"
+            type="button"
+            class="bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs px-4 py-2.5 rounded-lg whitespace-nowrap transition cursor-pointer"
+          >
+            📋 লিংক কপি করুন
+          </button>
+        </div>
+
+        <div class="flex flex-wrap items-center gap-3 pt-1 text-xs">
+          <a
+            href={`https://feedly.com/i/subscription/feed/${encodeURIComponent(rssUrl)}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="bg-emerald-700 hover:bg-emerald-600 text-white font-semibold px-3.5 py-2 rounded-lg transition"
+          >
+            Feedly-তে সাবস্ক্রাইব করুন &rarr;
+          </a>
+          <a
+            href="/rss.xml"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="text-emerald-200 hover:text-amber-300 underline font-medium"
+          >
+            সরাসরি XML ফাইল দেখুন (/rss.xml)
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Latest Feed Preview -->
+    <section class="bg-white rounded-2xl border border-slate-200 p-6 shadow-xs">
+      <div class="flex items-center justify-between pb-3 mb-4 border-b border-slate-100">
+        <h2 class="text-lg sm:text-xl font-bold text-slate-900 flex items-center space-x-2">
+          <span class="w-3 h-3 bg-emerald-800 rounded-xs"></span>
+          <span>সর্বশেষ প্রকাশিত ফিড (Latest Updates)</span>
+        </h2>
+        <a href="/" class="text-xs font-bold text-emerald-800 hover:underline">
+          সব খবর দেখুন &rarr;
+        </a>
+      </div>
+
+      <div class="divide-y divide-slate-100">
+        {latestNews.map((item) => {
+          const catMeta = getCategoryMeta(item.data.category);
+          const dateStr = item.data.pubDate.toLocaleDateString('bn-IN', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric',
+          });
+          return (
+            <article class="py-3.5 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
+              <div class="space-y-1">
+                <div class="flex items-center space-x-2 text-[11px]">
+                  <span class={`text-white font-bold px-2 py-0.5 rounded ${catMeta.bgColor}`}>
+                    {catMeta.name}
+                  </span>
+                  <span class="text-slate-400">{dateStr}</span>
+                </div>
+                <h3 class="font-bold text-slate-900 text-sm sm:text-base hover:text-emerald-800 transition">
+                  <a href={`/news/${item.id}/`}>{item.data.title}</a>
+                </h3>
+              </div>
+              <a
+                href={`/news/${item.id}/`}
+                class="text-xs font-bold text-emerald-800 hover:underline whitespace-nowrap shrink-0"
+              >
+                পড়ুন &rarr;
+              </a>
+            </article>
+          );
+        })}
+      </div>
+    </section>
+  </div>
+
+  <script is:inline>
+    const rssInput = document.getElementById('rss-url-input');
+    const copyBtn = document.getElementById('copy-rss-btn');
+    if (rssInput && window.location.origin) {
+      rssInput.value = `${window.location.origin}/rss.xml`;
+    }
+    copyBtn?.addEventListener('click', async () => {
+      if (!rssInput) return;
+      await navigator.clipboard.writeText(rssInput.value);
+      const orig = copyBtn.textContent;
+      copyBtn.textContent = '✅ কপি হয়েছে!';
+      setTimeout(() => { copyBtn.textContent = orig; }, 2500);
+    });
+  </script>
+</Layout>
