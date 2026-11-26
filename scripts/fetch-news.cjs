@@ -121,9 +121,16 @@ async function run() {
         }
 
         const dateStr = item.pubDate.toISOString();
+        const safeTitle = item.title.replace(/"/g, '\\"');
+        const safeSource = item.source.replace(/"/g, '\\"');
+        const sourceUrlLine = item.link ? `sourceUrl: ${JSON.stringify(item.link)}\n` : '';
+        const sourceNameLine = `sourceName: "${safeSource}"\n`;
+        const readMoreMd = item.link
+          ? `\n👉 [মূল উৎস (${item.source}) থেকে সম্পূর্ণ প্রতিবেদন পড়ুন](${item.link})\n`
+          : '';
         const content = `---
-title: "${item.title.replace(/"/g, '\\"')}"
-description: "${item.title.replace(/"/g, '\\"')} সংক্রান্ত বিস্তারিত তথ্য ও সর্বশেষ আপডেট।"
+title: "${safeTitle}"
+description: "${safeTitle} সংক্রান্ত বিস্তারিত তথ্য ও সর্বশেষ আপডেট।"
 pubDate: ${dateStr}
 author: "দ্য কাগজপ্লেন বার্তা বিভাগ"
 category: "${feed.category}"
@@ -131,7 +138,7 @@ categoryName: "${feed.categoryName}"
 image: "${feed.defaultImage}"
 featured: false
 breaking: true
-tags:
+${sourceUrlLine}${sourceNameLine}tags:
 ${feed.tags.map(t => `  - "${t}"`).join('\n')}
 ---
 
@@ -143,8 +150,7 @@ ${item.title} সংক্রান্ত সর্বশেষ তথ্য ও
 - সংশ্লিষ্ট দপ্তর ও সংবাদ সংস্থার প্রতিবেদন অনুসারে এই বিষয়ে গুরুত্বপূর্ণ পদক্ষেপ গৃহীত হয়েছে।
 - বিশেষজ্ঞদের মতে, এই সাম্প্রতিক পরিবর্তনের প্রভাব সরাসরি নাগরিক ও সাধারণ পাঠকের দৈনন্দিন জীবনে পড়তে পারে।
 - বিস্তারিত পরিস্থিতি পর্যালোচনা করে প্রয়োজনীয় পরামর্শ দেওয়া হচ্ছে।
-
-> [!NOTE] 
+${readMoreMd}
 > **তথ্যসূত্র ও সচেতনতা বিজ্ঞপ্তি:**  
 > এই প্রতিবেদনের প্রাথমিক তথ্যসূত্র: *${item.source}*। দ্য কাগজপ্লেন সম্পাদকীয় নীতিমালার আওতায় কপিরাইট সুরক্ষিত রাখতে এবং পাঠকদের নির্ভুল তথ্য প্রদান করতে এই প্রতিবেদনটি পুনঃপর্যালোচনা করে তৈরি করা হয়েছে। কোনো প্রকার কপিরাইট প্রশ্ন থাকলে contact@kagojplane.com-এ যোগাযোগ করুন।
 `;
