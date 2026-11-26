@@ -104,7 +104,7 @@ export default async (req: Request) => {
   const adminPassword = Netlify.env.get("ADMIN_PASSWORD");
   const githubToken = Netlify.env.get("GITHUB_TOKEN");
   const githubRepo = Netlify.env.get("GITHUB_REPO") || "tamalbarman/kagojplane-news";
-  const githubBranch = Netlify.env.get("GITHUB_BRANCH") || "main";
+  const githubBranch = Netlify.env.get("GITHUB_BRANCH") || "master";
 
   if (!adminPassword || !githubToken) {
     return Response.json(

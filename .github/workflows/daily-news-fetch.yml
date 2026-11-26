@@ -33,5 +33,5 @@ jobs:
             echo "No new news stories found in this run."
           else
             git commit -m "Auto-publish fresh news updates via ingestion pipeline"
-            git push origin main
+            git push origin master
           fi
