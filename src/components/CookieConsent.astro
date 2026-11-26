@@ -1,0 +1,204 @@
+---
+// Cookie Consent Banner & Settings Modal
+---
+
+<!-- Cookie Consent Banner -->
+<div
+  id="cookie-banner"
+  class="hidden fixed bottom-4 left-4 right-4 sm:left-auto sm:right-6 sm:max-w-md z-50 bg-slate-900/95 backdrop-blur-md text-slate-100 border border-emerald-700/80 rounded-2xl shadow-2xl p-5"
+  role="dialog"
+  aria-label="কুকি সম্মতি"
+>
+  <div class="flex items-start space-x-3">
+    <span class="text-xl shrink-0">🍪</span>
+    <div class="space-y-2">
+      <h3 class="text-sm font-bold text-amber-300">
+        কুকি ও গোপনীয়তা সেটিংস (Cookie Settings)
+      </h3>
+      <p class="text-xs text-slate-300 leading-relaxed">
+        আপনার পড়ার অভিজ্ঞতা (ডার্ক মোড, ফন্ট সাইজ) মনে রাখতে এবং সাইটের মানোন্নয়নের জন্য আমরা কুকি ব্যবহার করি। বিস্তারিত জানতে <a href="/privacy/" class="text-amber-300 underline hover:text-amber-200">গোপনীয়তা নীতি</a> দেখুন।
+      </p>
+      <div class="flex flex-wrap items-center gap-2 pt-1">
+        <button
+          id="cookie-accept-all"
+          type="button"
+          class="bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs px-3.5 py-2 rounded-lg transition cursor-pointer"
+        >
+          সব গ্রহণ করুন
+        </button>
+        <button
+          id="cookie-reject-nonessential"
+          type="button"
+          class="bg-slate-800 hover:bg-slate-700 text-slate-200 font-semibold text-xs px-3 py-2 rounded-lg border border-slate-700 transition cursor-pointer"
+        >
+          শুধু প্রয়োজনীয়
+        </button>
+        <button
+          id="cookie-open-settings"
+          type="button"
+          class="text-xs font-semibold text-emerald-300 hover:text-amber-300 underline px-1.5 py-1 cursor-pointer"
+        >
+          সেটিংস
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Cookie Settings Modal -->
+<div
+  id="cookie-modal"
+  class="hidden fixed inset-0 z-50 bg-black/60 backdrop-blur-xs flex items-center justify-center p-4"
+  role="dialog"
+  aria-modal="true"
+  aria-label="কুকি পছন্দসমূহ"
+>
+  <div class="bg-white dark:bg-[#121F17] text-slate-800 dark:text-slate-100 border border-slate-200 dark:border-emerald-800 rounded-2xl max-w-lg w-full p-6 shadow-2xl space-y-5">
+    <div class="flex items-center justify-between pb-3 border-b border-slate-200 dark:border-emerald-800/70">
+      <h3 class="text-lg font-bold text-slate-900 dark:text-white flex items-center space-x-2">
+        <span>🍪</span>
+        <span>কুকি সেটিংস পরিচালনা করুন</span>
+      </h3>
+      <button
+        id="cookie-modal-close"
+        type="button"
+        aria-label="বন্ধ করুন"
+        class="text-slate-400 hover:text-slate-700 dark:hover:text-white text-xl font-bold leading-none cursor-pointer"
+      >
+        &times;
+      </button>
+    </div>
+
+    <div class="space-y-3 text-xs sm:text-sm">
+      <!-- Essential -->
+      <div class="p-3.5 rounded-xl bg-slate-50 dark:bg-[#162C20] border border-slate-200 dark:border-emerald-800/60 flex items-start justify-between gap-3">
+        <div>
+          <p class="font-bold text-slate-900 dark:text-white">প্রয়োজনীয় কুকিজ (Essential)</p>
+          <p class="text-xs text-slate-500 dark:text-slate-300 mt-0.5">
+            সাইটের মূল কার্যকারিতা, ডার্ক মোড ও নিরাপত্তা বজায় রাখতে সর্বদা সক্রিয় থাকে।
+          </p>
+        </div>
+        <span class="text-[11px] font-bold text-emerald-700 dark:text-emerald-400 bg-emerald-100 dark:bg-emerald-950 px-2.5 py-1 rounded-full shrink-0">
+          সর্বদা সক্রিয়
+        </span>
+      </div>
+
+      <!-- Analytics -->
+      <label class="p-3.5 rounded-xl bg-slate-50 dark:bg-[#162C20] border border-slate-200 dark:border-emerald-800/60 flex items-start justify-between gap-3 cursor-pointer">
+        <div>
+          <p class="font-bold text-slate-900 dark:text-white">বিশ্লেষণ কুকিজ (Analytics)</p>
+          <p class="text-xs text-slate-500 dark:text-slate-300 mt-0.5">
+            কোন সংবাদগুলো পাঠকরা বেশি পছন্দ করছেন তা বুঝতে এবং সাইট উন্নত করতে সাহায্য করে।
+          </p>
+        </div>
+        <input id="cookie-toggle-analytics" type="checkbox" class="mt-1 w-4 h-4 accent-emerald-700 rounded cursor-pointer" />
+      </label>
+
+      <!-- Advertising -->
+      <label class="p-3.5 rounded-xl bg-slate-50 dark:bg-[#162C20] border border-slate-200 dark:border-emerald-800/60 flex items-start justify-between gap-3 cursor-pointer">
+        <div>
+          <p class="font-bold text-slate-900 dark:text-white">বিজ্ঞাপন কুকিজ (Advertising)</p>
+          <p class="text-xs text-slate-500 dark:text-slate-300 mt-0.5">
+            তৃতীয় পক্ষের বিজ্ঞাপন প্রাসঙ্গিক রাখতে ব্যবহৃত হয়।
+          </p>
+        </div>
+        <input id="cookie-toggle-ads" type="checkbox" class="mt-1 w-4 h-4 accent-emerald-700 rounded cursor-pointer" />
+      </label>
+    </div>
+
+    <div class="flex flex-wrap items-center justify-end gap-2.5 pt-2 border-t border-slate-200 dark:border-emerald-800/70">
+      <button
+        id="cookie-save-prefs"
+        type="button"
+        class="bg-slate-200 hover:bg-slate-300 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-900 dark:text-white font-bold text-xs px-4 py-2.5 rounded-xl transition cursor-pointer"
+      >
+        পছন্দ সেভ করুন
+      </button>
+      <button
+        id="cookie-modal-accept-all"
+        type="button"
+        class="bg-emerald-800 hover:bg-emerald-900 text-white font-bold text-xs px-4 py-2.5 rounded-xl transition cursor-pointer"
+      >
+        সব গ্রহণ করুন
+      </button>
+    </div>
+  </div>
+</div>
+
+<script is:inline>
+  (() => {
+    const STORAGE_KEY = 'kagojplane_cookie_consent';
+    const banner = document.getElementById('cookie-banner');
+    const modal = document.getElementById('cookie-modal');
+    const analyticsToggle = document.getElementById('cookie-toggle-analytics');
+    const adsToggle = document.getElementById('cookie-toggle-ads');
+
+    function getSavedConsent() {
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        return raw ? JSON.parse(raw) : null;
+      } catch {
+        return null;
+      }
+    }
+
+    function saveConsent(prefs) {
+      const record = {
+        essential: true,
+        analytics: Boolean(prefs.analytics),
+        advertising: Boolean(prefs.advertising),
+        updatedAt: new Date().toISOString(),
+      };
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(record));
+      } catch {}
+      document.cookie = `kagojplane_consent=${encodeURIComponent(
+        JSON.stringify({ a: record.analytics ? 1 : 0, ad: record.advertising ? 1 : 0 })
+      )}; Path=/; Max-Age=31536000; SameSite=Lax`;
+      window.dispatchEvent(new CustomEvent('kagojplane:cookie-consent', { detail: record }));
+      banner?.classList.add('hidden');
+      modal?.classList.add('hidden');
+    }
+
+    function openModal() {
+      const saved = getSavedConsent();
+      if (analyticsToggle) analyticsToggle.checked = saved ? Boolean(saved.analytics) : true;
+      if (adsToggle) adsToggle.checked = saved ? Boolean(saved.advertising) : false;
+      modal?.classList.remove('hidden');
+    }
+
+    if (!getSavedConsent()) {
+      banner?.classList.remove('hidden');
+    }
+
+    document.getElementById('cookie-accept-all')?.addEventListener('click', () => {
+      saveConsent({ analytics: true, advertising: true });
+    });
+
+    document.getElementById('cookie-reject-nonessential')?.addEventListener('click', () => {
+      saveConsent({ analytics: false, advertising: false });
+    });
+
+    document.getElementById('cookie-open-settings')?.addEventListener('click', openModal);
+    document.getElementById('footer-cookie-settings')?.addEventListener('click', openModal);
+
+    document.getElementById('cookie-modal-close')?.addEventListener('click', () => {
+      modal?.classList.add('hidden');
+    });
+
+    modal?.addEventListener('click', (e) => {
+      if (e.target === modal) modal.classList.add('hidden');
+    });
+
+    document.getElementById('cookie-save-prefs')?.addEventListener('click', () => {
+      saveConsent({
+        analytics: analyticsToggle?.checked ?? false,
+        advertising: adsToggle?.checked ?? false,
+      });
+    });
+
+    document.getElementById('cookie-modal-accept-all')?.addEventListener('click', () => {
+      saveConsent({ analytics: true, advertising: true });
+    });
+  })();
+</script>

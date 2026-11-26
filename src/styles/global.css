@@ -10,6 +10,7 @@
     scroll-behavior: smooth;
     color: #1e293b;
     background-color: #f8fafc;
+    overflow-x: hidden;
   }
 
   body {
@@ -98,13 +99,47 @@ html.dark .bg-slate-100 {
   background-color: #162C20 !important;
 }
 html.dark .prose {
-  color: #CBD5E1 !important;
+  color: #E2E8F0 !important;
+  --tw-prose-body: #E2E8F0;
+  --tw-prose-headings: #F8FAFC;
+  --tw-prose-lead: #CBD5E1;
+  --tw-prose-links: #34D399;
+  --tw-prose-bold: #F8FAFC;
+  --tw-prose-counters: #94A3B8;
+  --tw-prose-bullets: #34D399;
+  --tw-prose-hr: #1E3A2B;
+  --tw-prose-quotes: #CBD5E1;
+  --tw-prose-quote-borders: #F59E0B;
+  --tw-prose-captions: #94A3B8;
+  --tw-prose-code: #FCD34D;
+  --tw-prose-pre-code: #E2E8F0;
+  --tw-prose-pre-bg: #0B130E;
+  --tw-prose-th-borders: #1E3A2B;
+  --tw-prose-td-borders: #162C20;
 }
 html.dark .prose h1, html.dark .prose h2, html.dark .prose h3, html.dark .prose h4 {
   color: #F8FAFC !important;
 }
+html.dark .prose p, html.dark .prose li, html.dark .prose blockquote, html.dark .prose blockquote p {
+  color: #E2E8F0 !important;
+}
+html.dark .prose blockquote {
+  background-color: #162C20 !important;
+  border-left-color: #F59E0B !important;
+  padding: 0.75rem 1rem;
+  border-radius: 0.5rem;
+}
+html.dark .prose a {
+  color: #34D399 !important;
+}
 html.dark .prose strong {
-  color: #F1F5F9 !important;
+  color: #F8FAFC !important;
+}
+html.dark .bg-slate-200 {
+  background-color: #1E3A2B !important;
+}
+html.dark .text-emerald-800, html.dark .text-emerald-700 {
+  color: #34D399 !important;
 }
 html.dark input, 
 html.dark textarea, 

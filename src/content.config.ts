@@ -16,6 +16,8 @@ const newsCollection = defineCollection({
     trending: z.boolean().default(false),
     breaking: z.boolean().default(false),
     tags: z.array(z.string()).default([]),
+    sourceUrl: z.string().optional(),
+    sourceName: z.string().optional(),
   }),
 });
 
