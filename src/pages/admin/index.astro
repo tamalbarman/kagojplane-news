@@ -426,7 +426,17 @@ const categoryPresets: Record<string, string> = {
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ action: 'verify', password: pwd }),
         });
-        const data = await res.json();
+        const raw = await res.text();
+        let data;
+        try {
+          data = JSON.parse(raw);
+        } catch {
+          throw new Error(
+            res.status === 404
+              ? 'সার্ভার ফাংশন (/api/publish-post) পাওয়া যায়নি। লোকাল পিসিতে npm run dev-এর বদলে npx -y netlify-cli dev (পোর্ট 8888) ব্যবহার করুন, অথবা নিচের অফলাইন মোড ব্যবহার করুন।'
+              : `সার্ভার থেকে অপ্রত্যাশিত উত্তর এসেছে (HTTP ${res.status})।`
+          );
+        }
         if (!res.ok || !data.ok) {
           throw new Error(data.error || 'পাসওয়ার্ড সঠিক নয়।');
         }
@@ -590,7 +600,13 @@ const categoryPresets: Record<string, string> = {
           },
           body: JSON.stringify(payload),
         });
-        const data = await res.json();
+        const raw = await res.text();
+        let data;
+        try {
+          data = JSON.parse(raw);
+        } catch {
+          throw new Error(`সার্ভার থেকে অপ্রত্যাশিত উত্তর এসেছে (HTTP ${res.status})।`);
+        }
 
         if (!res.ok || !data.ok) {
           if (res.status === 401) showAuth();
