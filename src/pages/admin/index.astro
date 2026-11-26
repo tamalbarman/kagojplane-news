@@ -136,19 +136,19 @@ const categoryPresets: Record<string, string> = {
       <div id="publish-result" class="hidden rounded-xl px-4 py-3 text-sm border"></div>
 
       <!-- Edit Existing Published Post Bar -->
-      <div class="bg-white border border-slate-200 rounded-2xl p-4 sm:p-5 shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-        <div class="flex-1">
+      <div class="bg-white border border-slate-200 rounded-2xl p-4 sm:p-5 shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-3 overflow-hidden">
+        <div class="flex-1 min-w-0 w-full">
           <label for="existing-post-select" class="block text-xs font-bold text-slate-700 mb-1">
             পুরনো প্রকাশিত সংবাদ এডিট করুন (Edit Published Article)
           </label>
           <select
             id="existing-post-select"
-            class="w-full px-3 py-2 rounded-xl border border-slate-300 focus:border-emerald-700 outline-none text-xs sm:text-sm bg-slate-50"
+            class="w-full max-w-full px-3 py-2 rounded-xl border border-slate-300 focus:border-emerald-700 outline-none text-xs sm:text-sm bg-slate-50 truncate"
           >
-            <option value="">-- নতুন সংবাদ লিখুন অথবা এখান থেকে পুরনো সংবাদ বাছাই করুন --</option>
+            <option value="">-- নতুন সংবাদ লিখুন বা পুরনো সংবাদ বাছাই করুন --</option>
             {existingPosts.map((post) => (
               <option value={post.id}>
-                [{post.category}] {post.title.slice(0, 75)}{post.title.length > 75 ? '...' : ''}
+                [{post.category}] {post.title.slice(0, 48)}{post.title.length > 48 ? '...' : ''}
               </option>
             ))}
           </select>
@@ -156,7 +156,7 @@ const categoryPresets: Record<string, string> = {
         <button
           id="new-post-btn"
           type="button"
-          class="bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold text-xs px-4 py-2.5 rounded-xl whitespace-nowrap transition cursor-pointer sm:mt-5"
+          class="bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold text-xs px-4 py-2.5 rounded-xl whitespace-nowrap transition cursor-pointer shrink-0 sm:mt-5"
         >
           + নতুন সংবাদ (New)
         </button>
