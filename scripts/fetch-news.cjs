@@ -20,37 +20,65 @@ if (!fs.existsSync(NEWS_DIR)) {
   fs.mkdirSync(NEWS_DIR, { recursive: true });
 }
 
-// Feeds configuration
+// Feeds configuration with varied image pools per category
 const FEEDS = [
   {
     category: 'tech-it',
     categoryName: 'প্রযুক্তি ও এআই',
     url: 'https://news.google.com/rss/search?q=Nvidia+AI+Technology+chips+India&hl=en-IN&gl=IN&ceid=IN:en',
-    defaultImage: 'https://images.unsplash.com/photo-1591488320449-011701bb6704?w=1200&auto=format&fit=crop&q=80',
+    images: [
+      'https://images.unsplash.com/photo-1591488320449-011701bb6704?w=1200&auto=format&fit=crop&q=80',
+      'https://images.unsplash.com/photo-1518770660439-4636190af475?w=1200&auto=format&fit=crop&q=80',
+      'https://images.unsplash.com/photo-1677442136019-21780ecad995?w=1200&auto=format&fit=crop&q=80',
+      'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=1200&auto=format&fit=crop&q=80'
+    ],
     tags: ['প্রযুক্তি', 'Nvidia', 'AI', 'সেমিকন্ডাক্টর', 'Tech']
   },
   {
     category: 'business',
     categoryName: 'ব্যবসা',
     url: 'https://news.google.com/rss/search?q=business+economy+India&hl=en-IN&gl=IN&ceid=IN:en',
-    defaultImage: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=1200&auto=format&fit=crop&q=80',
+    images: [
+      'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=1200&auto=format&fit=crop&q=80',
+      'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=1200&auto=format&fit=crop&q=80',
+      'https://images.unsplash.com/photo-1507679799987-c73779587ccf?w=1200&auto=format&fit=crop&q=80',
+      'https://images.unsplash.com/photo-1526304640581-d334cdbbf45e?w=1200&auto=format&fit=crop&q=80'
+    ],
     tags: ['ব্যবসা', 'অর্থনীতি', 'বাণিজ্য']
   },
   {
     category: 'stock-market',
     categoryName: 'শেয়ার বাজার',
     url: 'https://news.google.com/rss/search?q=Sensex+Nifty+Stock+Market&hl=en-IN&gl=IN&ceid=IN:en',
-    defaultImage: 'https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=1200&auto=format&fit=crop&q=80',
+    images: [
+      'https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=1200&auto=format&fit=crop&q=80',
+      'https://images.unsplash.com/photo-1590283603385-17ffb3a7f29f?w=1200&auto=format&fit=crop&q=80',
+      'https://images.unsplash.com/photo-1642790106117-e829e14a795f?w=1200&auto=format&fit=crop&q=80',
+      'https://images.unsplash.com/photo-1535320903710-d993d3d77d29?w=1200&auto=format&fit=crop&q=80'
+    ],
     tags: ['শেয়ার বাজার', 'Sensex', 'Nifty']
   },
   {
     category: 'travel',
     categoryName: 'ভ্রমণ ও আবহাওয়া',
     url: 'https://news.google.com/rss/search?q=Darjeeling+Sikkim+Landslide+weather&hl=en-IN&gl=IN&ceid=IN:en',
-    defaultImage: 'https://images.unsplash.com/photo-1544644181-1484b3fdfc62?w=1200&auto=format&fit=crop&q=80',
+    images: [
+      'https://images.unsplash.com/photo-1544644181-1484b3fdfc62?w=1200&auto=format&fit=crop&q=80',
+      'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1200&auto=format&fit=crop&q=80',
+      'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=1200&auto=format&fit=crop&q=80',
+      'https://images.unsplash.com/photo-1501785888041-af3ef285b470?w=1200&auto=format&fit=crop&q=80'
+    ],
     tags: ['ভ্রমণ', 'আবহাওয়া', 'পাহাড়']
   }
 ];
+
+function pickImage(images, seedText) {
+  let hash = 0;
+  for (let i = 0; i < seedText.length; i++) {
+    hash = (hash * 31 + seedText.charCodeAt(i)) >>> 0;
+  }
+  return images[hash % images.length];
+}
 
 function fetchUrl(url) {
   return new Promise((resolve, reject) => {
@@ -128,6 +156,7 @@ async function run() {
         const readMoreMd = item.link
           ? `\n👉 [মূল উৎস (${item.source}) থেকে সম্পূর্ণ প্রতিবেদন পড়ুন](${item.link})\n`
           : '';
+        const selectedImage = pickImage(feed.images, item.title);
         const content = `---
 title: "${safeTitle}"
 description: "${safeTitle} সংক্রান্ত বিস্তারিত তথ্য ও সর্বশেষ আপডেট।"
@@ -135,7 +164,7 @@ pubDate: ${dateStr}
 author: "দ্য কাগজপ্লেন বার্তা বিভাগ"
 category: "${feed.category}"
 categoryName: "${feed.categoryName}"
-image: "${feed.defaultImage}"
+image: "${selectedImage}"
 featured: false
 breaking: true
 ${sourceUrlLine}${sourceNameLine}tags:
