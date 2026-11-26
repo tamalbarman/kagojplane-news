@@ -226,4 +226,10 @@ export default async (req: Request) => {
 export const config: Config = {
   path: "/api/publish-post",
   method: ["POST"],
+  rateLimit: {
+    windowSize: 60,
+    windowLimit: 10,
+    aggregateBy: ["ip", "domain"],
+    action: "rate_limit",
+  },
 };
