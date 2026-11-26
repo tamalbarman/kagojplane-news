@@ -142,6 +142,29 @@ const readingTimeText = `${bengaliDigits(readMinutes)} মিনিট পড়া
         <Content />
       </div>
 
+      <!-- Read Full Original Article Button (for syndicated/auto-fetched news) -->
+      {entry.data.sourceUrl && (
+        <div class="mt-8 p-4 sm:p-5 rounded-xl bg-emerald-50 dark:bg-[#162C20] border border-emerald-200 dark:border-emerald-800 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+          <div>
+            <p class="text-sm font-bold text-emerald-950 dark:text-amber-300">
+              মূল উৎস থেকে সম্পূর্ণ প্রতিবেদন পড়ুন
+            </p>
+            <p class="text-xs text-emerald-800 dark:text-slate-300 mt-0.5">
+              তথ্যসূত্র: {entry.data.sourceName || 'সংবাদ সংস্থা'}
+            </p>
+          </div>
+          <a
+            href={entry.data.sourceUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="inline-flex items-center justify-center space-x-2 bg-emerald-800 hover:bg-emerald-900 text-white font-bold text-xs px-4 py-2.5 rounded-lg shadow-xs transition whitespace-nowrap"
+          >
+            <span>সম্পূর্ণ খবর পড়ুন</span>
+            <span>&rarr;</span>
+          </a>
+        </div>
+      )}
+
       <!-- Article Tags -->
       {entry.data.tags && entry.data.tags.length > 0 && (
         <div class="mt-8 pt-6 border-t border-slate-100">
