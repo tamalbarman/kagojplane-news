@@ -5,9 +5,9 @@
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-5 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
     
     <!-- Logo & Brand -->
-    <div class="flex items-center justify-between">
-      <a href="/" class="flex items-center space-x-3.5 group">
-        <div class="relative w-12 h-12 sm:w-14 sm:h-14 rounded-full overflow-hidden shadow-sm ring-2 ring-amber-500/30 group-hover:ring-amber-500/60 transition-all duration-300 transform group-hover:scale-105 shrink-0 bg-emerald-950">
+    <div class="flex items-center justify-between gap-2 min-w-0">
+      <a href="/" class="flex items-center space-x-2.5 sm:space-x-3.5 group min-w-0">
+        <div class="relative w-10 h-10 sm:w-14 sm:h-14 rounded-full overflow-hidden shadow-sm ring-2 ring-amber-500/30 group-hover:ring-amber-500/60 transition-all duration-300 transform group-hover:scale-105 shrink-0 bg-emerald-950">
           <img 
             src="/images/logo.png" 
             alt="দ্য কাগজপ্লেন লোগো" 
@@ -16,20 +16,20 @@
             class="w-full h-full object-cover" 
           />
         </div>
-        <div>
+        <div class="min-w-0">
           <div class="flex items-center space-x-2">
-            <span class="text-2xl sm:text-3xl font-extrabold tracking-tight text-slate-900 group-hover:text-emerald-900 transition">
+            <span class="text-xl sm:text-3xl font-extrabold tracking-tight text-slate-900 group-hover:text-emerald-900 transition truncate">
               দ্য <span class="text-emerald-800">কাগজপ্লেন</span>
             </span>
           </div>
-          <p class="text-xs text-slate-500 font-medium tracking-wide">
+          <p class="text-[11px] sm:text-xs text-slate-500 font-medium tracking-wide leading-tight line-clamp-1">
             ভ্রমণ আপডেট, আবহাওয়া, সংবাদ ও রবিবারের রেসিপি
           </p>
         </div>
       </a>
 
       <!-- Mobile Right Actions -->
-      <div class="flex items-center space-x-2 md:hidden">
+      <div class="flex items-center space-x-1.5 md:hidden shrink-0">
         <button id="theme-toggle-mobile" aria-label="ডার্ক মোড টগল" class="p-2 rounded-lg bg-slate-100 text-slate-700 transition" title="ডার্ক মোড">
           <svg class="w-4 h-4 hidden dark:block text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
           <svg class="w-4 h-4 block dark:hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>
@@ -37,14 +37,14 @@
         <a href="https://whatsapp.com/channel/example" target="_blank" rel="noopener noreferrer" class="p-2 rounded-lg bg-emerald-600 text-white hover:bg-emerald-700 transition" title="হোয়াটসঅ্যাপ চ্যানেল">
           <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91C2.13 13.66 2.59 15.36 3.45 16.86L2.05 22L7.3 20.62C8.75 21.41 10.38 21.83 12.04 21.83C17.5 21.83 21.95 17.38 21.95 11.92C21.95 9.27 20.92 6.78 19.05 4.91C17.18 3.03 14.69 2 12.04 2M12.05 3.67C14.25 3.67 16.31 4.53 17.87 6.09C19.42 7.65 20.28 9.72 20.28 11.92C20.28 16.46 16.58 20.15 12.04 20.15C10.56 20.15 9.11 19.76 7.85 19L7.55 18.83L4.43 19.65L5.26 16.61L5.06 16.29C4.24 14.99 3.8 13.47 3.8 11.91C3.81 7.37 7.5 3.67 12.05 3.67Z"/></svg>
         </a>
-        <a href="/admin/" class="text-xs font-semibold px-2.5 py-1.5 bg-emerald-50 text-emerald-800 rounded-md border border-emerald-200">
+        <a href="/admin/" class="text-[11px] font-semibold px-2 py-1.5 bg-emerald-50 text-emerald-800 rounded-md border border-emerald-200 whitespace-nowrap">
           পোস্ট লিখুন
         </a>
       </div>
     </div>
 
     <!-- Quick Market Bar & Search -->
-    <div class="flex items-center justify-between md:justify-end space-x-4">
+    <div class="flex items-center justify-between md:justify-end gap-3">
       
       <!-- Mini Market Rates Bar -->
       <div class="hidden lg:flex items-center space-x-3 bg-slate-50 border border-slate-200 rounded-lg px-3 py-1.5 text-xs">

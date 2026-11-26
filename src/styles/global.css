@@ -10,6 +10,7 @@
     scroll-behavior: smooth;
     color: #1e293b;
     background-color: #f8fafc;
+    overflow-x: hidden;
   }
 
   body {
