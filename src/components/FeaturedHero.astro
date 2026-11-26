@@ -8,9 +8,13 @@ export interface Props {
 
 const { newsList } = Astro.props;
 
-// Top story is either marked as featured or latest
-const heroStory = newsList.find(n => n.data.featured) || newsList[0];
-const sideStories = newsList.filter(n => n.id !== heroStory.id).slice(0, 4);
+// Top story is a recent featured story (within 24h) or the latest article
+const oneDayAgo = Date.now() - 24 * 60 * 60 * 1000;
+const recentFeatured = newsList.find(
+  n => n.data.featured && n.data.pubDate.getTime() >= oneDayAgo
+);
+const heroStory = recentFeatured || newsList[0];
+const sideStories = newsList.filter(n => n.id !== heroStory?.id).slice(0, 4);
 ---
 
 <section class="mb-10">
