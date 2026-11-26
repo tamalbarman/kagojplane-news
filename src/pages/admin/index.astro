@@ -1,5 +1,15 @@
 ---
-// Decap CMS Admin Dashboard
+import '../../styles/global.css';
+import { CATEGORY_LIST } from '../../utils/categories';
+
+const categoryPresets: Record<string, string> = {
+  'tech-it': 'https://images.unsplash.com/photo-1591488320449-011701bb6704?w=1200&auto=format&fit=crop&q=80',
+  'stock-market': 'https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=1200&auto=format&fit=crop&q=80',
+  'business': 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=1200&auto=format&fit=crop&q=80',
+  'travel': 'https://images.unsplash.com/photo-1544644181-1484b3fdfc62?w=1200&auto=format&fit=crop&q=80',
+  'food-recipe': 'https://images.unsplash.com/photo-1585937421612-70a008356fbe?w=1200&auto=format&fit=crop&q=80',
+  'government-updates': 'https://images.unsplash.com/photo-1526304640581-d334cdbbf45e?w=1200&auto=format&fit=crop&q=80',
+};
 ---
 <!doctype html>
 <html lang="bn">
@@ -7,19 +17,605 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="robots" content="noindex, nofollow" />
-  <title>এডমিন প্যানেল - দ্য কাগজপ্লেন (Admin Dashboard)</title>
+  <title>এডমিন স্টুডিও - দ্য কাগজপ্লেন (Admin Studio)</title>
   <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-  <script is:inline src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
-  <style>
-    body {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Hind Siliguri", sans-serif;
-      margin: 0;
-      background: #0f172a;
-    }
-  </style>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet" />
 </head>
-<body>
-  <!-- Decap CMS App -->
-  <script is:inline src="https://unpkg.com/decap-cms@^3.1.2/dist/decap-cms.js"></script>
+<body class="bg-slate-50 text-slate-900 min-h-screen" style="font-family: 'Hind Siliguri', system-ui, sans-serif;">
+
+  <!-- Top Bar -->
+  <header class="bg-gradient-to-r from-emerald-950 via-[#1E3A2B] to-slate-900 text-white border-b border-emerald-800/70 sticky top-0 z-30 shadow-sm">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
+      <div class="flex items-center space-x-3">
+        <span class="w-9 h-9 rounded-lg bg-amber-500 text-slate-950 font-extrabold flex items-center justify-center text-lg shadow-xs">
+          কা
+        </span>
+        <div>
+          <h1 class="text-base sm:text-lg font-bold leading-tight text-white">
+            দ্য কাগজপ্লেন — এডমিন স্টুডিও
+          </h1>
+          <p class="text-[11px] text-emerald-300">
+            সংবাদ লিখুন, প্রিভিউ দেখুন এবং সরাসরি প্রকাশ করুন
+          </p>
+        </div>
+      </div>
+
+      <div class="flex items-center space-x-3">
+        <a href="/" class="text-xs font-semibold text-slate-200 hover:text-amber-300 transition px-3 py-1.5 rounded-lg border border-emerald-700/60 hover:border-amber-400/60">
+          সাইট দেখুন &rarr;
+        </a>
+        <button id="logout-btn" type="button" class="hidden text-xs font-semibold bg-white/10 hover:bg-white/20 text-white px-3 py-1.5 rounded-lg transition">
+          লগআউট
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-6xl mx-auto px-4 sm:px-6 py-8">
+
+    <!-- Auth Gate -->
+    <section id="auth-section" class="max-w-md mx-auto mt-8 bg-white border border-slate-200 rounded-2xl shadow-sm p-6 sm:p-8">
+      <div class="text-center mb-6">
+        <div class="w-12 h-12 rounded-xl bg-emerald-900 text-amber-400 font-bold text-xl flex items-center justify-center mx-auto mb-3">
+          🔐
+        </div>
+        <h2 class="text-xl font-bold text-slate-900">এডমিন লগইন</h2>
+        <p class="text-xs text-slate-500 mt-1">
+          পোস্ট প্রকাশ করতে আপনার এডমিন পাসওয়ার্ড লিখুন
+        </p>
+      </div>
+
+      <form id="login-form" class="space-y-4">
+        <div>
+          <label for="admin-password" class="block text-xs font-bold text-slate-700 mb-1.5">
+            এডমিন পাসওয়ার্ড (ADMIN_PASSWORD)
+          </label>
+          <input
+            id="admin-password"
+            type="password"
+            required
+            autocomplete="current-password"
+            placeholder="••••••••••••"
+            class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:border-emerald-700 focus:ring-2 focus:ring-emerald-700/20 outline-none text-sm"
+          />
+        </div>
+
+        <p id="auth-error" class="hidden text-xs font-semibold text-red-600 bg-red-50 border border-red-200 rounded-lg px-3 py-2"></p>
+
+        <button
+          id="login-submit-btn"
+          type="submit"
+          class="w-full bg-emerald-800 hover:bg-emerald-900 text-white font-bold text-sm py-2.5 rounded-xl transition shadow-xs cursor-pointer"
+        >
+          লগইন করুন
+        </button>
+
+        <div class="pt-2 border-t border-slate-100 text-center">
+          <button
+            id="offline-mode-btn"
+            type="button"
+            class="text-xs text-slate-500 hover:text-emerald-800 font-semibold underline cursor-pointer"
+          >
+            লোকাল / অফলাইন মোডে শুধু Markdown তৈরি করুন
+          </button>
+        </div>
+      </form>
+    </section>
+
+    <!-- Editor Studio -->
+    <section id="editor-section" class="hidden space-y-6">
+
+      <!-- Mode / Status Banner -->
+      <div id="offline-banner" class="hidden bg-amber-50 border border-amber-200 text-amber-900 rounded-xl px-4 py-3 text-xs flex items-center justify-between gap-3">
+        <span>
+          <strong>অফলাইন / লোকাল মোড:</strong> সরাসরি অনলাইনে প্রকাশ করতে লাইভ Netlify সাইটে লগইন করুন অথবা <code>npx netlify dev</code> দিয়ে চালান। এখানে আপনি Markdown কপি বা ডাউনলোড করতে পারবেন।
+        </span>
+      </div>
+
+      <div id="publish-result" class="hidden rounded-xl px-4 py-3 text-sm border"></div>
+
+      <form id="post-form" class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+
+        <!-- Left Column: Main Content (8 cols) -->
+        <div class="lg:col-span-8 space-y-5">
+          <div class="bg-white border border-slate-200 rounded-2xl p-5 sm:p-6 shadow-xs space-y-4">
+            <div>
+              <label for="post-title" class="block text-xs font-bold text-slate-700 mb-1.5">
+                শিরোনাম (Headline) <span class="text-red-500">*</span>
+              </label>
+              <input
+                id="post-title"
+                type="text"
+                required
+                placeholder="যেমন: দার্জিলিং ও সিকিমে ভারী বৃষ্টির সতর্কতা জারি..."
+                class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:border-emerald-700 focus:ring-2 focus:ring-emerald-700/20 outline-none text-base font-semibold"
+              />
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <div class="flex items-center justify-between mb-1.5">
+                  <label for="post-slug" class="block text-xs font-bold text-slate-700">
+                    URL স্লাগ (Slug)
+                  </label>
+                  <button id="regen-slug-btn" type="button" class="text-[11px] font-semibold text-emerald-700 hover:underline cursor-pointer">
+                    অটো তৈরি করুন
+                  </button>
+                </div>
+                <input
+                  id="post-slug"
+                  type="text"
+                  placeholder="darjeeling-weather-alert"
+                  class="w-full px-3.5 py-2 rounded-xl border border-slate-300 focus:border-emerald-700 outline-none text-xs font-mono bg-slate-50"
+                />
+                <p class="text-[11px] text-slate-400 mt-1">
+                  বাংলা শিরোনামের জন্য অটোমেটিক ইউনিক স্লাগ তৈরি হবে, চাইলে ইংরেজিতেও লিখতে পারেন।
+                </p>
+              </div>
+
+              <div>
+                <label for="post-category" class="block text-xs font-bold text-slate-700 mb-1.5">
+                  বিভাগ (Category) <span class="text-red-500">*</span>
+                </label>
+                <select
+                  id="post-category"
+                  required
+                  class="w-full px-3.5 py-2 rounded-xl border border-slate-300 focus:border-emerald-700 outline-none text-sm bg-white"
+                >
+                  {CATEGORY_LIST.map((cat) => (
+                    <option value={cat.slug} data-name={cat.name}>
+                      {cat.name} ({cat.englishName})
+                    </option>
+                  ))}
+                </select>
+              </div>
+            </div>
+
+            <div>
+              <label for="post-description" class="block text-xs font-bold text-slate-700 mb-1.5">
+                সংক্ষিপ্ত সারাংশ (Summary / SEO Description)
+              </label>
+              <textarea
+                id="post-description"
+                rows="2"
+                placeholder="সংবাদের ২-৩ লাইনের মূল সারসংক্ষেপ..."
+                class="w-full px-3.5 py-2 rounded-xl border border-slate-300 focus:border-emerald-700 outline-none text-sm"
+              ></textarea>
+            </div>
+          </div>
+
+          <!-- Markdown Editor + Live Preview -->
+          <div class="bg-white border border-slate-200 rounded-2xl p-5 sm:p-6 shadow-xs">
+            <div class="flex flex-wrap items-center justify-between gap-2 pb-3 mb-3 border-b border-slate-100">
+              <div class="flex items-center space-x-1.5">
+                <button type="button" data-md="h3" class="md-tool px-2.5 py-1 text-xs font-bold bg-slate-100 hover:bg-slate-200 rounded-lg cursor-pointer">H3</button>
+                <button type="button" data-md="bold" class="md-tool px-2.5 py-1 text-xs font-bold bg-slate-100 hover:bg-slate-200 rounded-lg cursor-pointer">B</button>
+                <button type="button" data-md="italic" class="md-tool px-2.5 py-1 text-xs italic font-semibold bg-slate-100 hover:bg-slate-200 rounded-lg cursor-pointer">I</button>
+                <button type="button" data-md="list" class="md-tool px-2.5 py-1 text-xs font-semibold bg-slate-100 hover:bg-slate-200 rounded-lg cursor-pointer">• তালিকা</button>
+                <button type="button" data-md="quote" class="md-tool px-2.5 py-1 text-xs font-semibold bg-slate-100 hover:bg-slate-200 rounded-lg cursor-pointer">❝ উদ্ধৃতি</button>
+                <button type="button" data-md="link" class="md-tool px-2.5 py-1 text-xs font-semibold bg-slate-100 hover:bg-slate-200 rounded-lg cursor-pointer">🔗 লিংক</button>
+              </div>
+
+              <div class="flex items-center bg-slate-100 p-0.5 rounded-lg text-xs font-semibold">
+                <button id="tab-write" type="button" class="px-3 py-1 rounded-md bg-white text-emerald-900 shadow-2xs cursor-pointer">লিখুন</button>
+                <button id="tab-preview" type="button" class="px-3 py-1 rounded-md text-slate-600 hover:text-slate-900 cursor-pointer">প্রিভিউ</button>
+              </div>
+            </div>
+
+            <textarea
+              id="post-body"
+              rows="14"
+              required
+              placeholder="### মূল খবর&#10;&#10;এখানে সংবাদের বিস্তারিত বিবরণ লিখুন..."
+              class="w-full px-3.5 py-3 rounded-xl border border-slate-300 focus:border-emerald-700 focus:ring-2 focus:ring-emerald-700/20 outline-none text-sm leading-relaxed"
+            ></textarea>
+
+            <div id="preview-pane" class="hidden min-h-[320px] prose prose-slate max-w-none p-4 rounded-xl bg-slate-50 border border-slate-200 text-sm leading-relaxed"></div>
+          </div>
+        </div>
+
+        <!-- Right Column: Metadata & Publish (4 cols) -->
+        <div class="lg:col-span-4 space-y-5">
+
+          <!-- Publish Actions Card -->
+          <div class="bg-white border border-slate-200 rounded-2xl p-5 shadow-xs space-y-4">
+            <h3 class="text-sm font-bold text-slate-900 border-b border-slate-100 pb-2">
+              প্রকাশনা সেটিংস (Publish)
+            </h3>
+
+            <div class="space-y-2.5 text-sm">
+              <label class="flex items-center space-x-2.5 cursor-pointer">
+                <input id="flag-featured" type="checkbox" class="w-4 h-4 accent-emerald-800 rounded" />
+                <span class="font-medium text-slate-700">প্রধান ফিচার্ড খবর (Featured Hero)</span>
+              </label>
+              <label class="flex items-center space-x-2.5 cursor-pointer">
+                <input id="flag-breaking" type="checkbox" checked class="w-4 h-4 accent-emerald-800 rounded" />
+                <span class="font-medium text-slate-700">ব্রেকিং নিউজ টিকার (Breaking)</span>
+              </label>
+              <label class="flex items-center space-x-2.5 cursor-pointer">
+                <input id="flag-trending" type="checkbox" class="w-4 h-4 accent-emerald-800 rounded" />
+                <span class="font-medium text-slate-700">জনপ্রিয় সংবাদ (Trending)</span>
+              </label>
+              <label class="flex items-center space-x-2.5 cursor-pointer pt-1 border-t border-slate-100">
+                <input id="flag-overwrite" type="checkbox" class="w-4 h-4 accent-amber-600 rounded" />
+                <span class="text-xs text-slate-500">একই স্লাগ থাকলে আপডেট/ওভাররাইট করুন</span>
+              </label>
+            </div>
+
+            <div class="pt-2 space-y-2.5">
+              <button
+                id="publish-btn"
+                type="submit"
+                class="w-full bg-emerald-800 hover:bg-emerald-900 disabled:opacity-50 text-white font-bold text-sm py-3 rounded-xl transition shadow-sm cursor-pointer"
+              >
+                🚀 এখনই প্রকাশ করুন (Publish)
+              </button>
+              <button
+                id="copy-md-btn"
+                type="button"
+                class="w-full bg-slate-100 hover:bg-slate-200 text-slate-800 font-semibold text-xs py-2.5 rounded-xl transition cursor-pointer"
+              >
+                📋 Markdown (.md) কপি করুন
+              </button>
+            </div>
+          </div>
+
+          <!-- Image & Author Card -->
+          <div class="bg-white border border-slate-200 rounded-2xl p-5 shadow-xs space-y-4">
+            <h3 class="text-sm font-bold text-slate-900 border-b border-slate-100 pb-2">
+              ছবি ও লেখক (Media & Author)
+            </h3>
+
+            <div>
+              <div class="flex items-center justify-between mb-1.5">
+                <label for="post-image" class="block text-xs font-bold text-slate-700">
+                  ছবির লিংক (Image URL)
+                </label>
+                <button id="preset-img-btn" type="button" class="text-[11px] font-semibold text-emerald-700 hover:underline cursor-pointer">
+                  ডিফল্ট ছবি বসান
+                </button>
+              </div>
+              <input
+                id="post-image"
+                type="url"
+                value="https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=1200&auto=format&fit=crop&q=80"
+                class="w-full px-3 py-2 rounded-xl border border-slate-300 focus:border-emerald-700 outline-none text-xs"
+              />
+              <div class="mt-2.5 aspect-[16/9] rounded-xl overflow-hidden bg-slate-100 border border-slate-200">
+                <img id="image-preview" src="https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=1200&auto=format&fit=crop&q=80" alt="Preview" class="w-full h-full object-cover" />
+              </div>
+            </div>
+
+            <div>
+              <label for="post-image-caption" class="block text-xs font-bold text-slate-700 mb-1.5">
+                ছবির ক্যাপশন (Caption)
+              </label>
+              <input
+                id="post-image-caption"
+                type="text"
+                placeholder="ছবির সংক্ষিপ্ত বিবরণ (ঐচ্ছিক)"
+                class="w-full px-3 py-2 rounded-xl border border-slate-300 focus:border-emerald-700 outline-none text-xs"
+              />
+            </div>
+
+            <div>
+              <label for="post-author" class="block text-xs font-bold text-slate-700 mb-1.5">
+                প্রতিবেদক / লেখক (Author)
+              </label>
+              <input
+                id="post-author"
+                type="text"
+                value="দ্য কাগজপ্লেন বার্তা বিভাগ"
+                class="w-full px-3 py-2 rounded-xl border border-slate-300 focus:border-emerald-700 outline-none text-xs"
+              />
+            </div>
+
+            <div>
+              <label for="post-tags" class="block text-xs font-bold text-slate-700 mb-1.5">
+                ট্যাগসমূহ (কমা দিয়ে আলাদা করুন)
+              </label>
+              <input
+                id="post-tags"
+                type="text"
+                placeholder="দার্জিলিং, আবহাওয়া, ব্রেকিং নিউজ"
+                class="w-full px-3 py-2 rounded-xl border border-slate-300 focus:border-emerald-700 outline-none text-xs"
+              />
+            </div>
+          </div>
+
+        </div>
+      </form>
+    </section>
+
+  </main>
+
+  <script is:inline define:vars={{ categoryPresets }}>
+    const STORAGE_KEY = 'kagojplane_admin_pwd';
+    let currentPassword = sessionStorage.getItem(STORAGE_KEY) || '';
+    let offlineMode = false;
+    let slugManuallyEdited = false;
+
+    const authSection = document.getElementById('auth-section');
+    const editorSection = document.getElementById('editor-section');
+    const logoutBtn = document.getElementById('logout-btn');
+    const offlineBanner = document.getElementById('offline-banner');
+    const loginForm = document.getElementById('login-form');
+    const authError = document.getElementById('auth-error');
+    const loginSubmitBtn = document.getElementById('login-submit-btn');
+    const offlineModeBtn = document.getElementById('offline-mode-btn');
+
+    const titleInput = document.getElementById('post-title');
+    const slugInput = document.getElementById('post-slug');
+    const regenSlugBtn = document.getElementById('regen-slug-btn');
+    const categorySelect = document.getElementById('post-category');
+    const descInput = document.getElementById('post-description');
+    const authorInput = document.getElementById('post-author');
+    const imageInput = document.getElementById('post-image');
+    const imagePreview = document.getElementById('image-preview');
+    const presetImgBtn = document.getElementById('preset-img-btn');
+    const imageCaptionInput = document.getElementById('post-image-caption');
+    const tagsInput = document.getElementById('post-tags');
+    const bodyInput = document.getElementById('post-body');
+    const previewPane = document.getElementById('preview-pane');
+    const tabWrite = document.getElementById('tab-write');
+    const tabPreview = document.getElementById('tab-preview');
+    const postForm = document.getElementById('post-form');
+    const publishBtn = document.getElementById('publish-btn');
+    const copyMdBtn = document.getElementById('copy-md-btn');
+    const publishResult = document.getElementById('publish-result');
+
+    function makeSlug(text) {
+      const ascii = (text || '')
+        .toLowerCase()
+        .replace(/[^a-z0-9\s-]/g, '')
+        .trim()
+        .replace(/\s+/g, '-')
+        .replace(/-+/g, '-')
+        .replace(/^-|-$/g, '')
+        .slice(0, 60);
+      if (ascii.length >= 3) return ascii;
+      const d = new Date();
+      const pad = (n) => String(n).padStart(2, '0');
+      return `news-${d.getFullYear()}${pad(d.getMonth() + 1)}${pad(d.getDate())}-${pad(d.getHours())}${pad(d.getMinutes())}`;
+    }
+
+    function showEditor(isOffline) {
+      offlineMode = isOffline;
+      authSection.classList.add('hidden');
+      editorSection.classList.remove('hidden');
+      logoutBtn.classList.remove('hidden');
+      if (isOffline) {
+        offlineBanner.classList.remove('hidden');
+        publishBtn.disabled = true;
+        publishBtn.textContent = 'অফলাইন মোডে প্রকাশ বন্ধ (Markdown কপি করুন)';
+      } else {
+        offlineBanner.classList.add('hidden');
+        publishBtn.disabled = false;
+        publishBtn.textContent = '🚀 এখনই প্রকাশ করুন (Publish)';
+      }
+    }
+
+    function showAuth() {
+      sessionStorage.removeItem(STORAGE_KEY);
+      currentPassword = '';
+      editorSection.classList.add('hidden');
+      logoutBtn.classList.add('hidden');
+      authSection.classList.remove('hidden');
+    }
+
+    if (currentPassword) {
+      showEditor(false);
+    }
+
+    logoutBtn.addEventListener('click', showAuth);
+
+    offlineModeBtn.addEventListener('click', () => showEditor(true));
+
+    loginForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      authError.classList.add('hidden');
+      const pwd = document.getElementById('admin-password').value;
+      loginSubmitBtn.disabled = true;
+      loginSubmitBtn.textContent = 'যাচাই করা হচ্ছে...';
+
+      try {
+        const res = await fetch('/api/publish-post', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ action: 'verify', password: pwd }),
+        });
+        const data = await res.json();
+        if (!res.ok || !data.ok) {
+          throw new Error(data.error || 'পাসওয়ার্ড সঠিক নয়।');
+        }
+        currentPassword = pwd;
+        sessionStorage.setItem(STORAGE_KEY, pwd);
+        showEditor(false);
+      } catch (err) {
+        authError.textContent = err.message || 'সার্ভারের সাথে সংযোগ করা যায়নি।';
+        authError.classList.remove('hidden');
+      } finally {
+        loginSubmitBtn.disabled = false;
+        loginSubmitBtn.textContent = 'লগইন করুন';
+      }
+    });
+
+    titleInput.addEventListener('input', () => {
+      if (!slugManuallyEdited) {
+        slugInput.value = makeSlug(titleInput.value);
+      }
+    });
+
+    slugInput.addEventListener('input', () => {
+      slugManuallyEdited = slugInput.value.trim().length > 0;
+    });
+
+    regenSlugBtn.addEventListener('click', () => {
+      slugManuallyEdited = false;
+      slugInput.value = makeSlug(titleInput.value);
+    });
+
+    imageInput.addEventListener('input', () => {
+      if (imageInput.value.trim()) {
+        imagePreview.src = imageInput.value.trim();
+      }
+    });
+
+    presetImgBtn.addEventListener('click', () => {
+      const cat = categorySelect.value;
+      const preset = categoryPresets[cat] || categoryPresets['stock-market'];
+      imageInput.value = preset;
+      imagePreview.src = preset;
+    });
+
+    // Markdown toolbar helpers
+    document.querySelectorAll('.md-tool').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const kind = btn.getAttribute('data-md');
+        const start = bodyInput.selectionStart;
+        const end = bodyInput.selectionEnd;
+        const selected = bodyInput.value.slice(start, end) || 'টেক্সট';
+        let insert = selected;
+        if (kind === 'h3') insert = `\n### ${selected}\n`;
+        if (kind === 'bold') insert = `**${selected}**`;
+        if (kind === 'italic') insert = `*${selected}*`;
+        if (kind === 'list') insert = `\n- ${selected}\n`;
+        if (kind === 'quote') insert = `\n> ${selected}\n`;
+        if (kind === 'link') insert = `[${selected}](https://)`;
+
+        bodyInput.setRangeText(insert, start, end, 'end');
+        bodyInput.focus();
+      });
+    });
+
+    // Simple client-side markdown preview
+    function renderSimpleMarkdown(md) {
+      const esc = (s) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+      return esc(md)
+        .replace(/^### (.*)$/gm, '<h3 class="text-lg font-bold text-slate-900 mt-4 mb-2">$1</h3>')
+        .replace(/^## (.*)$/gm, '<h2 class="text-xl font-bold text-slate-900 mt-5 mb-2">$1</h2>')
+        .replace(/^> (.*)$/gm, '<blockquote class="border-l-4 border-emerald-700 pl-3 italic text-slate-600 my-2">$1</blockquote>')
+        .replace(/^- (.*)$/gm, '<li class="ml-5 list-disc">$1</li>')
+        .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+        .replace(/\*(.*?)\*/g, '<em>$1</em>')
+        .replace(/\n\n/g, '</p><p class="my-2">')
+        .replace(/\n/g, '<br>');
+    }
+
+    tabPreview.addEventListener('click', () => {
+      previewPane.innerHTML = `<p class="my-2">${renderSimpleMarkdown(bodyInput.value || '_কোনো লেখা নেই_')}</p>`;
+      bodyInput.classList.add('hidden');
+      previewPane.classList.remove('hidden');
+      tabPreview.classList.add('bg-white', 'text-emerald-900', 'shadow-2xs');
+      tabWrite.classList.remove('bg-white', 'text-emerald-900', 'shadow-2xs');
+    });
+
+    tabWrite.addEventListener('click', () => {
+      previewPane.classList.add('hidden');
+      bodyInput.classList.remove('hidden');
+      tabWrite.classList.add('bg-white', 'text-emerald-900', 'shadow-2xs');
+      tabPreview.classList.remove('bg-white', 'text-emerald-900', 'shadow-2xs');
+    });
+
+    function collectPayload() {
+      const selectedOption = categorySelect.options[categorySelect.selectedIndex];
+      const tags = tagsInput.value
+        .split(',')
+        .map((t) => t.trim())
+        .filter(Boolean);
+
+      return {
+        title: titleInput.value.trim(),
+        slug: slugInput.value.trim() || makeSlug(titleInput.value),
+        description: descInput.value.trim(),
+        category: categorySelect.value,
+        categoryName: selectedOption?.getAttribute('data-name') || '',
+        author: authorInput.value.trim() || 'দ্য কাগজপ্লেন বার্তা বিভাগ',
+        image: imageInput.value.trim(),
+        imageCaption: imageCaptionInput.value.trim(),
+        featured: document.getElementById('flag-featured').checked,
+        trending: document.getElementById('flag-trending').checked,
+        breaking: document.getElementById('flag-breaking').checked,
+        overwrite: document.getElementById('flag-overwrite').checked,
+        tags,
+        body: bodyInput.value.trim(),
+      };
+    }
+
+    copyMdBtn.addEventListener('click', async () => {
+      const d = collectPayload();
+      const md = [
+        '---',
+        `title: ${JSON.stringify(d.title || 'শিরোনাম')}`,
+        `description: ${JSON.stringify(d.description || '')}`,
+        `pubDate: ${new Date().toISOString()}`,
+        `author: ${JSON.stringify(d.author)}`,
+        `category: ${JSON.stringify(d.category)}`,
+        `categoryName: ${JSON.stringify(d.categoryName)}`,
+        `image: ${JSON.stringify(d.image)}`,
+        ...(d.imageCaption ? [`imageCaption: ${JSON.stringify(d.imageCaption)}`] : []),
+        `featured: ${d.featured}`,
+        `trending: ${d.trending}`,
+        `breaking: ${d.breaking}`,
+        ...(d.tags.length ? ['tags:', ...d.tags.map((t) => `  - ${JSON.stringify(t)}`)] : ['tags: []']),
+        '---',
+        '',
+        d.body,
+        '',
+      ].join('\n');
+
+      await navigator.clipboard.writeText(md);
+      const orig = copyMdBtn.textContent;
+      copyMdBtn.textContent = '✅ কপি হয়েছে! (src/content/news/' + d.slug + '.md)';
+      setTimeout(() => { copyMdBtn.textContent = orig; }, 3000);
+    });
+
+    postForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      if (offlineMode) return;
+
+      publishResult.classList.add('hidden');
+      publishBtn.disabled = true;
+      publishBtn.textContent = 'প্রকাশ করা হচ্ছে...';
+
+      try {
+        const payload = collectPayload();
+        const res = await fetch('/api/publish-post', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${currentPassword}`,
+          },
+          body: JSON.stringify(payload),
+        });
+        const data = await res.json();
+
+        if (!res.ok || !data.ok) {
+          if (res.status === 401) showAuth();
+          throw new Error(data.error || 'প্রকাশ করতে সমস্যা হয়েছে।');
+        }
+
+        publishResult.className = 'rounded-xl px-4 py-3 text-sm border bg-emerald-50 border-emerald-200 text-emerald-900';
+        publishResult.innerHTML = `
+          <div class="font-bold">✅ সংবাদ সফলভাবে GitHub-এ প্রকাশিত হয়েছে!</div>
+          <p class="text-xs mt-1">Netlify কয়েক সেকেন্ডের মধ্যে সাইটটি বিল্ড ও আপডেট করে দেবে।</p>
+          <div class="mt-2 flex flex-wrap gap-3 text-xs font-semibold">
+            <a href="${data.articleUrl}" class="text-emerald-800 underline">পোস্ট লিংক (${data.articleUrl})</a>
+            ${data.commitUrl ? `<a href="${data.commitUrl}" target="_blank" rel="noopener" class="text-slate-700 underline">GitHub Commit দেখুন ↗</a>` : ''}
+          </div>
+        `;
+        publishResult.classList.remove('hidden');
+      } catch (err) {
+        publishResult.className = 'rounded-xl px-4 py-3 text-sm border bg-red-50 border-red-200 text-red-800';
+        publishResult.textContent = `❌ ${err.message}`;
+        publishResult.classList.remove('hidden');
+      } finally {
+        publishBtn.disabled = false;
+        publishBtn.textContent = '🚀 এখনই প্রকাশ করুন (Publish)';
+      }
+    });
+  </script>
 </body>
 </html>
